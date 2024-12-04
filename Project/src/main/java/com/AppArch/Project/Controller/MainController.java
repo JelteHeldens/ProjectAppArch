@@ -12,4 +12,24 @@ public class MainController {
 	{
 		return "index";
 	}
+	
+	@GetMapping("/overview")
+	public String overview()
+	{
+		return "overview";
+	}
+	
+	@RequestMapping("/login")
+	public String inlog()
+	{
+		return "login";
+	}
+	
+	@GetMapping("/register")
+	public String reg()
+	{
+		return "register";
+	}
+	
+	
 }

@@ -1,0 +1,18 @@
+create table customers (
+	email   varchar(50) not null primary key,
+    passwd	varchar(100) not null,
+	name	varchar(50) not null,
+    enabled smallint default 1
+);
+
+create table authorities(
+	email 	varchar(50) primary key references customers,
+    authority 	varchar(50) NOT NULL
+);
+commit;
+
+insert into customers (email, name, passwd, enabled) values ('user1@dn.be', 'user', '$2a$12$4vSMrt1cZy2XmMrVtJP82OE0KXD5RLRA10b1B70tvSPNd3LdsfagC', 1);
+insert into authorities values('user1@dn.be', 'ROLE_user');
+insert into customers (email, name, passwd, enabled) values ('admin1@dn.be', 'admin', '$2a$12$M9wWIyPIy1gWsc5UI0FheevkdQWd.N5.rO8oxad5FP1mRaTXxmzeq', 1);
+insert into authorities values('admin1@dn.be', 'ROLE_admin');
+commit;

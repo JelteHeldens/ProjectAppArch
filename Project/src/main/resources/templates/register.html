@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Handymen - Registreer</title>
+	<link rel="icon" type="image/x-icon" href="icon.png">
+	<link rel="stylesheet" href="styleLogin.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
+</head>
+<body>
+	<div class="LoginBG">
+		<div class="LoginBOX">
+			<div class="LoginTOP"><img class="headerLogo" src="icon.png"><h1>Handymen.com</h1></div>
+			<div class="LoginBOTTOM">
+				<div class="LoginFields">
+					<form  th:object="${custumor}" th:action="@{/login}" method="post"> 
+						<div class="RegisterRadios">
+							<input type="radio" id="klant" name="userType" value="klant" checked="checked">
+							<label for="klant">Klant</label>
+							<input type="radio" id="klusjesman" name="userType" value="klusjesman">
+							<label for="klusjesman">Klusjesman</label><br><br>
+						</div>
+						<a>E-MAILADRES</a><br>
+						<input type="text" id="email" name="email"><br><br>
+						<a>WACHTWOORD</a><br>
+						<input type="password" id="pswd" name="pswd"><br><br>
+						<a>HERHAAL WACHTWOORD</a><br>
+						<input type="password" id="pswd2" name="pswd2	"><br><br>
+						<input type="submit" value="Registreer">
+					</form>
+					<div class="registerLink"><a>Al een account? </a><a href="login.html" id="link">login</a></div><br>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<div th:insert="/fragments/general.html :: head"></div>
+</head>
+<body>
+	<div class="LoginBG">
+		<div class="LoginBOX">
+			<div class="LoginTOP"><img class="headerLogo" src="images/icon.png"><h1>Handymen.com</h1></div>
+			<div class="LoginBOTTOM">
+				<div class="LoginFields">
+					<form method="post" action="/postlogin">
+						<a>E-MAILADRES</a><br>
+						<input type="text" id="email" name="email"><br><br>
+						<a>WACHTWOORD</a><br>
+						<input type="password" id="pswd" name="pswd"><br><br>
+						<input type="submit" value="Inloggen">
+					</form>
+					<div class="registerLink"><a>Geen account? 	</a><a href="/register" id="link">registreer</a></div><br>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

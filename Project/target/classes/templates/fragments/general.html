@@ -11,9 +11,14 @@
 
 <div class = "header" th:fragment="header">
 	<div class="header">
-		<img class="headerLogo" src="/images/icon.png">
+		<img  src="images/icon.png" class="headerLogo">
 		<h1>Handymen.com</h1>
 	</div><br>
+	<a href ="/overview">Overview</a>
+	<form th:action="@{/login}" method="post">
+		<input type="submit" value="Login"></form>
+	<form th:action="@{/logout}" method="post">
+		<input type="submit" value="logout"></form>
 </div>
 
 <div class="footer" th:fragment="footer">
