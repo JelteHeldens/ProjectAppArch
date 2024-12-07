@@ -3,20 +3,38 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+
+import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Service.UserRepoServiceImpl;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class MainController {
 	
+	@Autowired
+	private UserRepoServiceImpl UserRepS;
+	
+	//Drie get mapping naar homepage: index.html
 	@GetMapping("/")
 	public String home()
 	{
 		return "index";
 	}
 	
-	@GetMapping("/overview")
-	public String overview()
+	@GetMapping("/index")
+	public String index()
 	{
-		return "overview";
+		return "index";
+	}
+	
+	@GetMapping("/home")
+	public String homep()
+	{
+		return "index";
 	}
 	
 	@RequestMapping("/login")
@@ -30,6 +48,16 @@ public class MainController {
 	{
 		return "register";
 	}
+	@PostMapping("/registreer")
+	public String registreer(HttpServletRequest req) {
+		RestTemplate rest = new RestTemplate();
+		rest.postForObject("http://localhost:8080/user/add", new User(req.getParameter("name"),req.getParameter("email"),req.getParameter("pswd"),req.getParameter("userType"),1), ResponseEntity.class);
+		return "register";
+	}
 	
-	
+	@GetMapping("/newJob")
+	public String newJob()
+	{
+		return "newJob";
+	}
 }

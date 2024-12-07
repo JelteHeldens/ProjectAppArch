@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -19,17 +20,22 @@ public class SecurityConfig {
 	@Autowired
 	DataSource dataSource;
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return NoOpPasswordEncoder.getInstance();
 	}
 	@Bean
 	SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
 		http.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/", "/register", "/css/**", "/js/**", "/images/**").permitAll()
-				.requestMatchers("/overview").authenticated()
-				).formLogin(form -> form.loginPage("/login").permitAll()
-				).logout (logout -> logout.logoutSuccessUrl("/"));
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer").permitAll()
+				.requestMatchers("/","/index","/home","/newJob").authenticated()
+			)
+			.formLogin(form -> form
+					.loginPage("/login").permitAll()
+			)
+			.logout (logout -> logout
+					.logoutSuccessUrl("/")
+			);
 		return http.build();
 				
 	}

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<div th:insert="/fragments/general.html :: head"></div>
+	<title>Handymen - Login</title>
+	<div th:insert="/fragments/general.html :: headLogReg"></div>
 </head>
 <body>
 	<div class="LoginBG">
 		<div class="LoginBOX">
-			<div class="LoginTOP"><img class="headerLogo" src="images/icon.png"><h1>Handymen.com</h1></div>
+			<div class="LoginTOP"><img class="headerLogo" src="images/logo.png"></div>
 			<div class="LoginBOTTOM">
 				<div class="LoginFields">
-					<div th:if="${param.error}">
-							Invalid username and/or password </div>
-					<form th:action="@{/login}" method="post">
+					<div th:if="${param.error}" class="errormsg">Invalid Username and/or Password.</div>
+					<form th:action="@{/login}" method="POST">
 						<a>E-MAILADRES</a><br>
 						<input type="text" id="username" name="username"><br><br>
 						<a>WACHTWOORD</a><br>
