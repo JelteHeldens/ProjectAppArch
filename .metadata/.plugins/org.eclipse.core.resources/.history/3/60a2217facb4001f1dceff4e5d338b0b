@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Handymen - New Job</title>
+	<div th:insert="/fragments/general.html :: head"></div>
+</head>
+<body>
+<div th:insert="/fragments/general.html :: header"></div><br>
+
+<div class="SinglePostit">
+	<div class="postit">
+		<div class="postitInner">
+			<div class="title"><a><input type="text" id="title" name="title" placeholder="Titel van het klusje"></a></div><br>
+			<div class="description"><a><textarea id="description" name="description" rows="9" placeholder="Beschrijving van het klusje"></textarea></a></div>
+		</div>
+	</div>
+</div>
+	
+<div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

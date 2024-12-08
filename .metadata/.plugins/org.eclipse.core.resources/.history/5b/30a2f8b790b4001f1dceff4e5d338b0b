@@ -1,0 +1,99 @@
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+body{
+	background-image: linear-gradient(to right, #253569, #0878e8);
+}
+
+.LoginBG{
+    display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	min-height: 95vh;
+}
+.LoginBOX{
+	color: #ACB0B7;
+    background: #313338;
+	padding: 10px;
+	border: 3px;
+	border-radius: 5px;
+	box-shadow: 5px 5px 4px 0px rgba(0, 0, 0, 0.6);
+}
+.LoginTOP{
+	display: flex;
+	margin: auto;
+	text-align: center;
+}
+.headerLogo{
+	margin-top: 30px;
+	margin-left: 11%;
+	text-align: center;
+	width: 20%;
+}
+.LoginBOTTOM{
+	display: flex;
+	margin: auto;
+	text-align: center;
+}
+.LoginFields{
+	text-align: left;
+	margin: auto;
+}
+.LoginFields a{
+	font-family:"Roboto";
+	font-size: 12px;
+}
+input{
+	margin-top: 2px;
+	color: white;
+	background-color: #1E1F22;
+	box-sizing: border-box;
+	border: 2px solid #1E1F22;
+	outline: none;
+}
+input[type=submit] {
+	font-family:"Roboto";
+	font-size: 14px;
+	background-color: #E11323;
+	color: white;
+	display: flex;
+	margin: auto;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: none;
+	border-radius: 5px;
+	width: 100%;
+}
+input[type=submit]:hover {
+	background-color: #CB1638;
+	cursor: pointer;
+	color: white;
+}
+h1{
+	font-family:"Caveat Brush";
+	font-weight: normal;
+	margin-left: 1vw;
+	font-size: 40px;
+	color: #F2F3F5;
+}
+
+.registerLink{
+	text-align: center;
+}
+#link:link {
+	color: #ACB0B7;
+}
+#link:visited {
+	color: #ACB0B7;
+}
+#link:hover {
+	color: white;
+}
+.errormsg{
+	color:red;
+}

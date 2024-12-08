@@ -1,0 +1,155 @@
+/**************
+FONTS & SYMBOLS
+**************/
+
+.caveat-brush-regular {
+	font-family: "Caveat Brush", cursive;
+	font-weight: 400;
+	font-style: normal;
+}
+.shadows-into-light-two-regular {
+	font-family: "Shadows Into Light Two", cursive;
+	font-weight: 400;
+	font-style: normal;
+}
+.material-symbols-outlined {
+	color: white;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+
+/**************
+	HEADER
+**************/
+
+.header{
+	display: flex;
+	margin-left: -10px;
+	margin-right: -8px;
+	margin-top: -15px;
+	padding-top: 1px;
+	padding-bottom: 10px;
+	background-image: linear-gradient(to right, #253569, #1B4E98);
+	margin-bottom: 10px;
+	border-bottom: 5px solid #FF0000;
+}
+
+.headerLogoIMG{
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 10px;
+	margin-left: 15px;
+	max-width: 300px;
+}
+.headerMenu{
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	padding-top: 20px;
+}
+
+/**************
+	ALGEMEEN
+**************/
+
+body{
+	background-color: #313338;
+	background-image: url('ptrn.png');
+	background-size: 3%;
+	background-repeat: repeat;
+}
+h1{
+	font-family:"Caveat Brush";
+	font-weight: normal;
+	margin-left: 1vw;
+	font-size: 40px;
+	color: white
+}
+
+/**************
+	INDEX
+**************/
+
+.postitBoard{
+	display: flex;
+	flex-wrap: wrap;
+}
+.JobToevoegen{
+	display: inline-flex;
+	margin: 10px;
+	margin-right: 20px;
+	width: 330px;
+	height: 330px;
+}
+.JobToevoegen:hover{
+	cursor: pointer;
+}
+.postit{
+	display: inline-flex;
+	flex-wrap: wrap;
+	width: 350px;
+	height: 350px;
+	background-color: #fffa60;
+	margin: 10px;
+	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.9);
+	transition: transform .2s;
+	rotate: -1deg;
+}
+.postit:hover {
+	background-color: #E2DE56;
+	cursor: pointer;
+}
+
+.postitInner{
+	margin: 10px;
+}
+
+.postit .title{
+	font-size: 32px;
+	font-family:"Caveat Brush";
+}
+
+.postit .description{
+	font-size: 20px;
+	font-family:"Shadows Into Light Two";
+}
+.RegisterRadios{
+	text-align: left;
+}
+
+
+/**************
+	NewJob
+**************/
+
+.SinglePostit{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 25%;
+}
+.SinglePostit .title input[type='text']{
+	font-size: 32px;
+	font-family:"Caveat Brush";
+	background-color: #fffa60;
+}
+.SinglePostit .description textarea{
+	resize: none;
+	font-family:"Shadows Into Light Two";
+	width: 100%;
+	height: auto;
+	background-color: #fffa60;
+}
+
+
+/**************
+	FOOTER
+**************/
+
+.footer{
+	color: white;
+	text-align: center;
+}

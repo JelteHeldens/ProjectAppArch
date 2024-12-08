@@ -1,0 +1,5 @@
+package com.AppArch.Project.Model;
+
+public enum State {
+	BESCHIKBAAR,GEBODEN,TOEGEWEZEN,UITGEVOERD,BEOORDEELD
+}
