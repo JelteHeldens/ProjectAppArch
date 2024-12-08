@@ -26,9 +26,13 @@ public class SecurityConfig {
 	}
 	@Bean
 	SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
-		http.authorizeHttpRequests(authorize -> authorize
-				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer").permitAll()
+		http
+		.csrf(csrf -> csrf.disable())
+		.authorizeHttpRequests(authorize -> authorize
+				 
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**").permitAll()
 				.requestMatchers("/","/index","/home","/newJob").authenticated()
+				//.anyRequest().permitAll()
 			)
 			.formLogin(form -> form
 					.loginPage("/login").permitAll()

@@ -8,28 +8,28 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
-@Table(name="CUSTOMERS")
+@Table(name="customers")
 public class User {
 	
 	@NotBlank
-    @NotEmpty
-	@Column(name="NAME")
+	@NotEmpty
+	@Column(name="name")
 	private String name;
 	@NotBlank
-    @NotEmpty
+	@NotEmpty
     @Id
-	@Column(name="EMAIL")
+	@Column(name="email")
 	private String email;
 	@NotBlank
-    @NotEmpty
-	@Column(name="PASSWD")
+	@NotEmpty
+	@Column(name="passwd")
 	private String passwd;
 	@NotBlank
     @NotEmpty
-	@Column(name="FUNCTIE")
+	@Column(name="functie")
 	private String functie;
-	@Column(name="ENABLED")
-	private int enabled = 1;
+	@Column(name="enabled")
+	private int enabled;
 	
 	public User() {}
 	public User(String name, String email, String passwd, String functie, int enabled) {

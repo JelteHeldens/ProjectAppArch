@@ -1,0 +1,30 @@
+package com.AppArch.Project.Controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Service.UserRepoService;
+import com.AppArch.Project.Service.UserRepoServiceImpl;
+
+@RestController
+public class ApiController {
+	@Autowired
+	private UserRepoService userServ;
+	
+	@PostMapping("/useradd")
+	public void addUser(@RequestBody User u){
+		System.out.println(u);
+		userServ.addUser(u);
+	}
+	
+	@GetMapping("/users")
+	public List<User> getusers(){
+		return userServ.getusers();
+	}
+}
