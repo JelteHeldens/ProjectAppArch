@@ -1,0 +1,5 @@
+package com.AppArch.Project.Repository;
+
+public interface TaskRepo {
+
+}

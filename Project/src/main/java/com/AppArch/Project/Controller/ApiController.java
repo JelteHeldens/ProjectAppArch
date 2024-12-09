@@ -8,14 +8,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Service.TaskRepoService;
 import com.AppArch.Project.Service.UserRepoService;
-import com.AppArch.Project.Service.UserRepoServiceImpl;
+
+
 
 @RestController
 public class ApiController {
 	@Autowired
 	private UserRepoService userServ;
+	
+	@Autowired
+	private TaskRepoService TaskServ;
 	
 	@PostMapping("/user/add")
 	public void addUser(@RequestBody User u){
@@ -26,4 +32,17 @@ public class ApiController {
 	public List<User> getusers(){
 		return userServ.getusers();
 	}
+	
+	@GetMapping("/tasks")
+	public List<Task> getTasks(){
+		return TaskServ.getTask();
+	}
+	
+	@PostMapping("/add/task")
+	public void addTasks(@RequestBody Task t){
+		TaskServ.addTask(t);
+	}
+	
+	
+	
 }

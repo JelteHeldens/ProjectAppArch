@@ -4,13 +4,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Repository.UserRepo;
+import com.AppArch.Project.Service.UserRepoService;
 import com.AppArch.Project.Service.UserRepoServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class MainController {
@@ -55,8 +63,17 @@ public class MainController {
 		return "register";
 	}
 	
+	@PostMapping("/taskform")
+	public String addtasks(HttpServletRequest req) {
+		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
+		Optional<User> u = UserRepoService.getUserById(email);
+		RestTemplate rest = new RestTemplate();
+		rest.postForObject("http://localhost:8080/task/add", new Task(req.getParameter("title"),req.getParameter("description"),Float.parseFloat(req.getParameter("price")),u.get()), ResponseEntity.class);
+		return "register";
+	}
+	
 	@GetMapping("/newJob")
-	public String newJob()
+	public String newJob(HttpSession ses)
 	{
 		return "newJob";
 	}
