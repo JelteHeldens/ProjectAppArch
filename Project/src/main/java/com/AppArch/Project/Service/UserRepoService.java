@@ -9,4 +9,5 @@ public interface UserRepoService {
 	public void addUser(User u);
 	public List<User> getusers();
 	public Optional<User> getUserById(String e);
+	public String getCurrentUser();
 }

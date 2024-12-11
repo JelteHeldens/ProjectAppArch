@@ -1,3 +1,6 @@
+drop table authorities;
+drop table customers;
+drop table task;
 create table customers (
 	email   varchar(50) not null primary key,
     passwd	varchar(100) not null,
@@ -11,6 +14,8 @@ create table authorities(
     authority 	varchar(50) NOT NULL
 );
 
+
+
 insert into customers (email, name, passwd, functie, enabled) values ('user1@dn.be', 'user', '$2a$12$4vSMrt1cZy2XmMrVtJP82OE0KXD5RLRA10b1B70tvSPNd3LdsfagC', 'klant', 1);
 insert into authorities values('user1@dn.be', 'ROLE_user');
 insert into customers (email, name, passwd, functie, enabled) values ('admin1@dn.be', 'admin', '$2a$12$M9wWIyPIy1gWsc5UI0FheevkdQWd.N5.rO8oxad5FP1mRaTXxmzeq', 'klusjesman', 1);
@@ -18,3 +23,20 @@ insert into authorities values('admin1@dn.be', 'ROLE_admin');
 insert into customers (email, name, passwd, functie, enabled) values ('test@ikkel.be', 'admin', 'test', 'klusjesman', 1);
 insert into authorities values('test@ikkel.be', 'ROLE_admin');
 commit;
+
+create table task(
+	id	int AUTO_INCREMENT primary key,
+	title 	varchar(50) NOT NULL,
+    description varchar(100) NOT NULL,
+    price float NOT NULL,
+    owner varchar(50) not null REFERENCES customers,
+    status int not null
+);
+
+INSERT INTO task (title, description, price, owner, status)
+VALUES
+    ('Muren schilderen', 'Schilder de muren van de woonkamer in wit.', 250.00, 'test@ikkel.be', 0),
+    ('Tuin snoeien', 'Snoei de heg en verwijder onkruid in de tuin.', 150.00, 'test@ikkel.be', 0),
+    ('Kraan repareren', 'Repareer de lekkende kraan in de keuken.', 80.00, 'user1@dn.be', 0),
+    ('Kast monteren', 'Monteer een IKEA-kast in de slaapkamer.', 100.00, 'user1@dn.be', 0),
+    ('Houten vloer leggen', 'Leg een nieuwe houten vloer in de woonkamer.', 500.00, 'user1@dn.be', 0);

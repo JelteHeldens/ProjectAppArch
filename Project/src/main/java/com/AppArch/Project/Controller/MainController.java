@@ -14,9 +14,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Repository.UserRepo;
+import com.AppArch.Project.Service.TaskRepoService;
 import com.AppArch.Project.Service.UserRepoService;
 import com.AppArch.Project.Service.UserRepoServiceImpl;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -24,24 +27,33 @@ import jakarta.servlet.http.HttpSession;
 public class MainController {
 	
 	@Autowired
-	private UserRepoServiceImpl UserRepS;
+	private UserRepoService UserRepS;
+	
+	@Autowired
+	private TaskRepoService taskRepS;
+	
+	@Autowired
+	private ServletContext ctx;
 	
 	//Drie get mapping naar homepage: index.html
 	@GetMapping("/")
 	public String home()
 	{
+		ctx.setAttribute("tasks",taskRepS.getTask());
 		return "index";
 	}
 	
 	@GetMapping("/index")
 	public String index()
 	{
+		ctx.setAttribute("tasks",taskRepS.getTask());
 		return "index";
 	}
 	
 	@GetMapping("/home")
 	public String homep()
 	{
+		ctx.setAttribute("tasks",taskRepS.getTask());
 		return "index";
 	}
 	
@@ -56,6 +68,15 @@ public class MainController {
 	{
 		return "register";
 	}
+	
+	@GetMapping("/profile")
+	public String profiles() {
+		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
+		System.out.println(user.get().getEmail());
+		ctx.setAttribute("user",user.get());
+		return "profile";
+	}
+	
 	@PostMapping("/registreer")
 	public String registreer(HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
@@ -65,11 +86,26 @@ public class MainController {
 	
 	@PostMapping("/taskform")
 	public String addtasks(HttpServletRequest req) {
-		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
-		Optional<User> u = UserRepoService.getUserById(email);
 		RestTemplate rest = new RestTemplate();
-		rest.postForObject("http://localhost:8080/task/add", new Task(req.getParameter("title"),req.getParameter("description"),Float.parseFloat(req.getParameter("price")),u.get()), ResponseEntity.class);
-		return "register";
+		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
+		Optional<User> u = UserRepS.getUserById(email);
+		if (!u.isPresent()) {
+		    throw new RuntimeException("User not found");
+		}
+		Task task = new Task(req.getParameter("title"),
+                req.getParameter("description"),
+                Float.parseFloat(req.getParameter("price")),
+                u.get());
+		//System.out.println(task);
+		
+		rest.postForObject("http://localhost:8080/tasks/add", task, ResponseEntity.class);
+		return "/index";
+	}
+	
+	@PostMapping("/edit/profiel")
+	public String editProfile(HttpServletRequest req) {
+		RestTemplate rest = new RestTemplate();
+		return "/profile";
 	}
 	
 	@GetMapping("/newJob")
@@ -77,4 +113,5 @@ public class MainController {
 	{
 		return "newJob";
 	}
+	
 }

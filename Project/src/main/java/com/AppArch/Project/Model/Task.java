@@ -76,6 +76,10 @@ public class Task {
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
+	
+	public int getId() {
+		return this.id;
+	}
 	/*public ArrayList<User> getOffers() {
 		return offers;
 	}

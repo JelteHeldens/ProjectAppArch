@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="/fragments/general.html :: head"></div>
+	<title>Handymen - Profile</title>
+</head>
+<body>
+    <div th:replace="/fragments/general.html :: header"></div><br>
+    <main>
+        <form action="/edit/email" method="post">
+            <label for="fname">First name:</label><br>
+            <input type="text" id="fname" name="name" th:value="${user.name}"><br>
+            <button type="submit">Save</button>
+        </form>
+    </main>
+    <div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

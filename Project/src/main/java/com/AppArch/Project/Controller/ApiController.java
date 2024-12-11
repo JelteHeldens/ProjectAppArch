@@ -38,8 +38,9 @@ public class ApiController {
 		return TaskServ.getTask();
 	}
 	
-	@PostMapping("/add/task")
+	@PostMapping("/tasks/add")
 	public void addTasks(@RequestBody Task t){
+		System.out.println("Received Task: " + t);
 		TaskServ.addTask(t);
 	}
 	

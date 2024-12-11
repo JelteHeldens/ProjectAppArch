@@ -17,6 +17,7 @@ public class TaskRepoServiceImpl implements TaskRepoService{
 	}
 
 	public void addTask(Task t) {
+		System.out.println("save Task: " + t);
 		taskRepo.save(t);
 	}
 	
