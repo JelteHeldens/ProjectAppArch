@@ -1,6 +1,6 @@
 drop table authorities;
-drop table customers;
 drop table task;
+drop table customers;
 create table customers (
 	email   varchar(50) not null primary key,
     passwd	varchar(100) not null,
@@ -27,7 +27,7 @@ commit;
 create table task(
 	id	int AUTO_INCREMENT primary key,
 	title 	varchar(50) NOT NULL,
-    description varchar(100) NOT NULL,
+    description varchar(150) NOT NULL,
     price float NOT NULL,
     owner varchar(50) not null REFERENCES customers,
     status int not null
@@ -35,8 +35,10 @@ create table task(
 
 INSERT INTO task (title, description, price, owner, status)
 VALUES
+	('Deur repareren', "Oude deur circa jaren '60 moet bijgeslepen worden. Deur is te groot voor het frame.", 80.00, 'test@ikkel.be', 1),
     ('Muren schilderen', 'Schilder de muren van de woonkamer in wit.', 250.00, 'test@ikkel.be', 0),
     ('Tuin snoeien', 'Snoei de heg en verwijder onkruid in de tuin.', 150.00, 'test@ikkel.be', 0),
     ('Kraan repareren', 'Repareer de lekkende kraan in de keuken.', 80.00, 'user1@dn.be', 0),
     ('Kast monteren', 'Monteer een IKEA-kast in de slaapkamer.', 100.00, 'user1@dn.be', 0),
+    ('Bijennest verwijderen', 'Aw aw aw, da prikt, heeeeelp.', 25.00, 'test@ikkel.be', 4),
     ('Houten vloer leggen', 'Leg een nieuwe houten vloer in de woonkamer.', 500.00, 'user1@dn.be', 0);

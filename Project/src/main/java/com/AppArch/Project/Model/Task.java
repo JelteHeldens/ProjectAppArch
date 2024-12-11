@@ -33,6 +33,8 @@ public class Task {
 	@JoinColumn(name="owner")
 	private User owner;
 	
+	//Variabele om op het einde rating toe te kennen aan klusjesman en daarmee algemene rating te berekenen van elke klusjesman
+	private int rating;
 	
 	//private ArrayList<User> offers;
 	@Column(name="status")
@@ -50,6 +52,7 @@ public class Task {
 		this.status = State.BESCHIKBAAR;
 		//this.offers = new ArrayList<User>();
 		//this.assigned = new User();
+		this.rating = 0;
 	}
 	
 	public String getTitle() {

@@ -10,22 +10,20 @@
 <div th:replace="/fragments/general.html :: header"></div><br>
 
 	<div class="postitBoard">
-		<a href="/newJob"><img class="JobToevoegen" src="images/jobToevoegen.png"></a>
-		<div class="postit">
-			<div class="postitInner">
-				<div class="title"><a>Loodgieter gezocht!</a></div><br>
-				<div class="description"><a>Loodgieter gezocht om een lekkende kraan op te lossen, stuur help anders verdrink ik, blub blub blub</a></div>
-			</div>
-		</div>
-
+		<a href="/newJob"class="ADDJOBBTN">VOEG JOB TOE<br> +</a>
 		
-		<div class="postit" th:each="task : ${application.tasks}">
+		<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.tasks}" >
 		    <div class="postitInner">
-		        <div class="title" th:text="${task.title}"></div>
+				<div class="postitTop">
+		        	<div class="title" th:text="${task.title}"></div>
+					<div class="price" th:text="€+${task.price}"></div>
+				</div><br>
 		        <div class="description" th:text="${task.description}"></div>
 		    </div>
 		</div>
-	</div> 
+		
+	</div>
+	
 <div th:insert="/fragments/general.html :: footer"></div>
 </body>
 </html>

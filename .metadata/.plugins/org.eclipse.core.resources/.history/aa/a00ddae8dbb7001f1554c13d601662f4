@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Handymen - New Job</title>
+	<div th:insert="/fragments/general.html :: head"></div>
+</head>
+<body>
+<div th:insert="/fragments/general.html :: header"></div><br>
+
+<form action="/taskform" method="post">
+	<div th:if="${param.error}" class="errormsg">Let op dat elk veld correct is ingevuld.</div>
+	<div class="SinglePostit">
+		<div class="postit">
+			<div class="postitInner"> 
+				<div class="postitTop">
+					<div class="title"><a><input type="text" id="title" name="title" placeholder="Titel van het klusje"></a></div><br>
+					<div class="price"><a><input type="number" id="price" name="price" min="0" max="9999" placeholder="€10"></a></div><br>
+				</div><br>
+				<div class="description"><a><textarea id="description" name="description" rows="9" placeholder="Beschrijving van het klusje"></textarea></a></div>
+			</div>
+		</div>
+	</div><br>
+	<div class="CenterKnop"><button type="submit" class="SubmitKlusje">Plaats klusje</button></div><br><br>
+</form>
+
+<div class="addJobUitleg">
+	<h1>Uitleg bij aanmaken van klusje:</h1>
+	<a>Om een klusje aan te maken dien je een <b>titel</b>, <b>prijs</b> en <b>beschrijving</b> van het klusje op te geven.</a>
+	<a>De titel is een korte beschrijving van wat het klusje inhoudt. De prijs moet een getalwaarde zijn tussen 0 en 9999 euro. De beschrijving is de uitleg over wat het klusje gaat.</a>
+</div><br><br>
+
+<div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

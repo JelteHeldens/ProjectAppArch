@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="/fragments/general.html :: head"></div>
+	<title>Handymen - Profile</title>
+</head>
+<body>
+    <div th:replace="/fragments/general.html :: header"></div><br>
+	
+	<h1>Hier komt info<h2>
+	<a>Hier komt info over wat de kleuren van de postits betekenen. Wat er in elke fase kan gebeuren en waar de postit zichtbaar is</a>
+		   
+    <div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

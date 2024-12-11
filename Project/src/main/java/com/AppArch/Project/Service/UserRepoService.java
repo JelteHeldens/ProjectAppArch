@@ -10,4 +10,5 @@ public interface UserRepoService {
 	public List<User> getusers();
 	public Optional<User> getUserById(String e);
 	public String getCurrentUser();
+	public void updateUser(String mail, String NEWname);
 }

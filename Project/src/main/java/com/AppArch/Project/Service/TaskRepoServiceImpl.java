@@ -5,17 +5,34 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Repository.TaskRepo;
 @Service
 public class TaskRepoServiceImpl implements TaskRepoService{
 	@Autowired
 	private TaskRepo taskRepo;
 	
-	public List<Task> getTask(){
+	public List<Task> getTasks(){
 		return taskRepo.findAll();
 	}
+	public List<Task> getUserTasks(User u){
+		return taskRepo.findByUser(u);
+	}
 
+	public List<Task> getUserTasksState(User u, State s){
+		return taskRepo.findByUserAndState(u,s);
+	}
+	
+	public List<Task> getUserTasksActive(User u){
+		return taskRepo.findByUserAndActive(u);
+	}
+	
+	public List<Task> getUserTasksDone(User u){
+		return taskRepo.findByUserAndDone(u);
+	}
+	
 	public void addTask(Task t) {
 		System.out.println("save Task: " + t);
 		taskRepo.save(t);

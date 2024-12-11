@@ -35,7 +35,7 @@ public class ApiController {
 	
 	@GetMapping("/tasks")
 	public List<Task> getTasks(){
-		return TaskServ.getTask();
+		return TaskServ.getTasks();
 	}
 	
 	@PostMapping("/tasks/add")

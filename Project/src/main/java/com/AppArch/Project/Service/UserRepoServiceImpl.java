@@ -32,4 +32,10 @@ public class UserRepoServiceImpl implements UserRepoService{
 	public String getCurrentUser() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
+	public void updateUser(String mail, String NEWname) {
+		User u = UserRep.findById(mail).get();
+		u.setName(NEWname);
+		
+		UserRep.save(u);
+	}
 }

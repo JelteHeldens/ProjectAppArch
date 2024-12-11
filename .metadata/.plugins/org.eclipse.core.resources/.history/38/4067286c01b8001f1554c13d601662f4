@@ -1,0 +1,22 @@
+package com.AppArch.Project.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.AppArch.Project.Model.State;
+import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
+
+
+public interface TaskRepo extends JpaRepository<Task, Integer> {	
+	@Query("SELECT t FROM Task t WHERE t.owner = :u")
+    List<Task> findByUser(User u);
+	
+	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.state = :s")
+    List<Task> findByUserAndState(User u, State s);
+	
+	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.state < 4")
+    List<Task> findByUserAndActive(User u);
+}

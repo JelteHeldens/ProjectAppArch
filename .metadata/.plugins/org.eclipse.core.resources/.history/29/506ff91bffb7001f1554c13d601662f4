@@ -1,0 +1,13 @@
+package com.AppArch.Project.Repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
+
+
+public interface TaskRepo extends JpaRepository<Task, Integer> {
+	List<Task> findByUser(User u);
+}

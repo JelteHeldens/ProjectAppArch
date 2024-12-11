@@ -1,0 +1,14 @@
+package com.AppArch.Project.Service;
+
+import java.util.List;
+
+import com.AppArch.Project.Model.State;
+import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
+
+public interface TaskRepoService {
+	public List<Task> getTasks();
+	public List<Task> getUserTasks(User u);
+	public List<Task> getUserTasksByState(User u, State s);
+	public void addTask(Task t);
+}

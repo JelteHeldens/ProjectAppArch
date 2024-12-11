@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,21 +40,21 @@ public class MainController {
 	@GetMapping("/")
 	public String home()
 	{
-		ctx.setAttribute("tasks",taskRepS.getTask());
+		ctx.setAttribute("tasks",taskRepS.getTasks());
 		return "index";
 	}
 	
 	@GetMapping("/index")
 	public String index()
 	{
-		ctx.setAttribute("tasks",taskRepS.getTask());
+		ctx.setAttribute("tasks",taskRepS.getTasks());
 		return "index";
 	}
 	
 	@GetMapping("/home")
 	public String homep()
 	{
-		ctx.setAttribute("tasks",taskRepS.getTask());
+		ctx.setAttribute("tasks",taskRepS.getTasks());
 		return "index";
 	}
 	
@@ -74,6 +75,11 @@ public class MainController {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
 		System.out.println(user.get().getEmail());
 		ctx.setAttribute("user",user.get());
+		
+		List<Task> userTasksActive = taskRepS.getUserTasksActive(user.get());
+		ctx.setAttribute("userTasksActive",userTasksActive);
+		List<Task> userTasksDone = taskRepS.getUserTasksDone(user.get());
+		ctx.setAttribute("userTasksDone",userTasksDone);
 		return "profile";
 	}
 	
@@ -96,22 +102,32 @@ public class MainController {
                 req.getParameter("description"),
                 Float.parseFloat(req.getParameter("price")),
                 u.get());
-		//System.out.println(task);
+		System.out.println(task.getTitle());
 		
 		rest.postForObject("http://localhost:8080/tasks/add", task, ResponseEntity.class);
-		return "/index";
+
+		ctx.setAttribute("tasks",taskRepS.getTasks());
+		return "redirect:/";
 	}
 	
 	@PostMapping("/edit/profiel")
 	public String editProfile(HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		return "/profile";
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
+		UserRepS.updateUser(email, req.getParameter("NEWNAME"));
+		return "redirect:/profile";
 	}
 	
 	@GetMapping("/newJob")
 	public String newJob(HttpSession ses)
 	{
 		return "newJob";
+	}
+	
+	@GetMapping("/info")
+	public String info(HttpSession ses)
+	{
+		return "info";
 	}
 	
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<div th:insert="/fragments/general.html :: head"></div>
+	<title>Handymen</title>
+	<script src="/js/script.js"></script>
+</head>
+<body onload="init()">
+<div th:replace="/fragments/general.html :: header"></div><br>
+	<a th:each="task : ${application.tasks}" th:text="${task.status}"></a>
+	<div class="postitBoard">
+		<a href="/newJob"><img class="JobToevoegen" src="images/jobToevoegen.png"></a>
+		
+		<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.tasks}" >
+		    <div class="postitInner">
+				<div class="postitTop">
+		        	<div class="title" th:text="${task.title}"></div>
+					<div class="price" th:text="€+${task.price}"></div>
+				</div><br>
+		        <div class="description" th:text="${task.description}"></div>
+		    </div>
+		</div>
+	</div> 
+<div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>
