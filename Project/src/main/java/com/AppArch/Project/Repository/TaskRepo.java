@@ -17,6 +17,9 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.status = :s")
     List<Task> findByUserAndState(User u, State s);
 	
+	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.status < :s")
+    List<Task> findByUserAndStateLessThan(User u, State s);
+	
 	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.status < 4")
     List<Task> findByUserAndActive(User u);
 	

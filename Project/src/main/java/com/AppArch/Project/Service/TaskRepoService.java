@@ -10,6 +10,7 @@ public interface TaskRepoService {
 	public List<Task> getTasks();
 	public List<Task> getUserTasks(User u);
 	public List<Task> getUserTasksState(User u, State s);
+	public List<Task> getUserTasksStateLessThan(User u, State s);
 	public List<Task> getUserTasksActive(User u);
 	public List<Task> getUserTasksDone(User u);
 	public void addTask(Task t);

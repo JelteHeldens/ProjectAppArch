@@ -30,8 +30,8 @@ public class SecurityConfig {
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> authorize
 				 
-				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "/edit/profiel").permitAll()
-				.requestMatchers("/","/index","/home","/newJob","/profile","/info").authenticated()
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**").permitAll()
+				.requestMatchers("/","/index","/home","/newJob","/profile","/info", "/edit/profiel", "/klant/profile", "/klusjesman/profile").authenticated()
 				//.anyRequest().permitAll()
 			)
 			.formLogin(form -> form

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Repository.UserRepo;
@@ -76,11 +77,30 @@ public class MainController {
 		System.out.println(user.get().getEmail());
 		ctx.setAttribute("user",user.get());
 		
-		List<Task> userTasksActive = taskRepS.getUserTasksActive(user.get());
-		ctx.setAttribute("userTasksActive",userTasksActive);
+		//Querries moeten later aangepast worden. Onderscheid moet gemaakt worden tussen klant en klusjesman.
+		//Een klusjesman is niet de 'owner' van een task, bij deze queries wordt zowel klant als klusjesman gezien als owner. Dit is tijdelijk voorbeeld dus.	
+		List<Task> userTasksTOEGEWEZEN = taskRepS.getUserTasksState(user.get(), State.TOEGEWEZEN);
+		ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
+		List<Task> userTasksUITGEVOERD = taskRepS.getUserTasksState(user.get(), State.UITGEVOERD);
+		ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
 		List<Task> userTasksDone = taskRepS.getUserTasksDone(user.get());
 		ctx.setAttribute("userTasksDone",userTasksDone);
-		return "profile";
+		
+		System.out.println(user.get().getRole());
+		//Gebruiker is klusjesman
+		if (user.get().getRole().equals("klusjesman")) {
+			List<Task> userTasksGEBODEN = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR);
+			ctx.setAttribute("userTasksGEBODEN",userTasksGEBODEN);
+			
+			return "klusjesman/profile";
+		}
+		//Gebruiker is klant
+		else {
+			List<Task> userTasksOpenstaand = taskRepS.getUserTasksStateLessThan(user.get(), State.TOEGEWEZEN);
+			ctx.setAttribute("userTasksOpenstaand",userTasksOpenstaand);
+			
+			return "klant/profile";
+		}
 	}
 	
 	@PostMapping("/registreer")

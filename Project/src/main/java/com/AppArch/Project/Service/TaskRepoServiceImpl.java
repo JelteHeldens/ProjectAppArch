@@ -24,6 +24,10 @@ public class TaskRepoServiceImpl implements TaskRepoService{
 	public List<Task> getUserTasksState(User u, State s){
 		return taskRepo.findByUserAndState(u,s);
 	}
+
+	public List<Task> getUserTasksStateLessThan(User u, State s){
+		return taskRepo.findByUserAndStateLessThan(u,s);
+	}
 	
 	public List<Task> getUserTasksActive(User u){
 		return taskRepo.findByUserAndActive(u);
