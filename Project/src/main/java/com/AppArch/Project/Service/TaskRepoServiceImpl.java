@@ -1,6 +1,7 @@
 package com.AppArch.Project.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,23 @@ public class TaskRepoServiceImpl implements TaskRepoService{
 	public void addTask(Task t) {
 		System.out.println("save Task: " + t);
 		taskRepo.save(t);
+	}
+
+	public Optional<Task> getTaskById(int id) {
+			return taskRepo.findById(id);
+	}
+	
+	public void updateTask(int id, String title, String description, float price) {
+		taskRepo.updateTask(id, title, description, price);
+	}
+	
+	public void remove(int id) {
+		taskRepo.deleteById(id);
+	}
+	
+	public void changeState(int id, State s) {
+		taskRepo.changeState(id,s);
+		
 	}
 	
 }

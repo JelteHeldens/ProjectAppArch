@@ -12,14 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.AppArch.Project.Model.Offer;
 import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Model.UserAuthorization;
 import com.AppArch.Project.Repository.UserRepo;
+import com.AppArch.Project.Service.OfferRepoService;
 import com.AppArch.Project.Service.TaskRepoService;
 import com.AppArch.Project.Service.UserRepoService;
 import com.AppArch.Project.Service.UserRepoServiceImpl;
 
+import ch.qos.logback.core.model.Model;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,28 +39,49 @@ public class MainController {
 	private TaskRepoService taskRepS;
 	
 	@Autowired
+	private OfferRepoService offerRepoS;
+	
+	@Autowired
 	private ServletContext ctx;
 	
 	//Drie get mapping naar homepage: index.html
 	@GetMapping("/")
-	public String home()
+	public String home(HttpServletRequest request)
 	{
 		ctx.setAttribute("tasks",taskRepS.getTasks());
-		return "index";
+		System.out.println(request.isUserInRole("ROLE_klusjesman"));
+		if(request.isUserInRole("ROLE_klusjesman")){
+			return "klusjesman/index";
+		}
+		else {
+			return "klant/index";
+		}
 	}
 	
 	@GetMapping("/index")
-	public String index()
+	public String index(HttpServletRequest request)
 	{
 		ctx.setAttribute("tasks",taskRepS.getTasks());
-		return "index";
+		System.out.println(request.isUserInRole("ROLE_klusjesman"));
+		if(request.isUserInRole("ROLE_klusjesman")){
+			return "klusjesman/index";
+		}
+		else {
+			return "klant/index";
+		}
 	}
 	
 	@GetMapping("/home")
-	public String homep()
+	public String homep(HttpServletRequest request)
 	{
 		ctx.setAttribute("tasks",taskRepS.getTasks());
-		return "index";
+		System.out.println(request.isUserInRole("ROLE_klusjesman"));
+		if(request.isUserInRole("ROLE_klusjesman")){
+			return "klusjesman/index";
+		}
+		else {
+			return "klant/index";
+		}
 	}
 	
 	@RequestMapping("/login")
@@ -72,9 +97,9 @@ public class MainController {
 	}
 	
 	@GetMapping("/profile")
-	public String profiles() {
+	public String profiles(HttpServletRequest request, Model m) {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
-		System.out.println(user.get().getEmail());
+		String email = user.get().getEmail();
 		ctx.setAttribute("user",user.get());
 		
 		//Querries moeten later aangepast worden. Onderscheid moet gemaakt worden tussen klant en klusjesman.
@@ -88,16 +113,26 @@ public class MainController {
 		
 		System.out.println(user.get().getRole());
 		//Gebruiker is klusjesman
-		if (user.get().getRole().equals("klusjesman")) {
-			List<Task> userTasksGEBODEN = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR);
+		if (request.isUserInRole("ROLE_klusjesman")) {
+			System.out.println(email);
+			//List<Offer> userTasksGEBODEN = taskRepS.getUserTasksState(user.get());
+			List<Task> userTasksGEBODEN = offerRepoS.findTasksByEmail(user.get());
+			//System.out.println(userTasksGEBODEN.isEmpty());
 			ctx.setAttribute("userTasksGEBODEN",userTasksGEBODEN);
 			
 			return "klusjesman/profile";
 		}
 		//Gebruiker is klant
 		else {
-			List<Task> userTasksOpenstaand = taskRepS.getUserTasksStateLessThan(user.get(), State.TOEGEWEZEN);
+			List<Task> userTasksOpenstaand = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR); //List<Task> findByUserAndState(User u, State s);
 			ctx.setAttribute("userTasksOpenstaand",userTasksOpenstaand);
+			List<Task> userTasksGeboden = taskRepS.getUserTasksState(user.get(), State.GEBODEN);
+			ctx.setAttribute("userTasksGeboden",userTasksGeboden);
+			/*for(int i = 0; i<userTasksGeboden.size(); i++) {
+				List<User> GebodenUsers = offerRepoS.findUserByTask(userTasksGeboden.get(i));
+				
+			}*/
+			
 			
 			return "klant/profile";
 		}
@@ -106,29 +141,14 @@ public class MainController {
 	@PostMapping("/registreer")
 	public String registreer(HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		rest.postForObject("http://localhost:8080/user/add", new User(req.getParameter("name"),req.getParameter("email"),req.getParameter("pswd"),req.getParameter("userType"),1), ResponseEntity.class);
-		return "register";
+		User u = new User(req.getParameter("name"),req.getParameter("email"),req.getParameter("pswd"),req.getParameter("userType"),1);
+		rest.postForObject("http://localhost:8080/user/add",u , ResponseEntity.class);
+		UserAuthorization ua = new UserAuthorization(req.getParameter("email"),req.getParameter("userType"));
+		rest.postForObject("http://localhost:8080//user/add/authorities", ua,ResponseEntity.class) ;
+		return "redirect:/login";
 	}
 	
-	@PostMapping("/taskform")
-	public String addtasks(HttpServletRequest req) {
-		RestTemplate rest = new RestTemplate();
-		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
-		Optional<User> u = UserRepS.getUserById(email);
-		if (!u.isPresent()) {
-		    throw new RuntimeException("User not found");
-		}
-		Task task = new Task(req.getParameter("title"),
-                req.getParameter("description"),
-                Float.parseFloat(req.getParameter("price")),
-                u.get());
-		System.out.println(task.getTitle());
-		
-		rest.postForObject("http://localhost:8080/tasks/add", task, ResponseEntity.class);
 
-		ctx.setAttribute("tasks",taskRepS.getTasks());
-		return "redirect:/";
-	}
 	
 	@PostMapping("/edit/profiel")
 	public String editProfile(HttpServletRequest req) {
@@ -138,11 +158,7 @@ public class MainController {
 		return "redirect:/profile";
 	}
 	
-	@GetMapping("/newJob")
-	public String newJob(HttpSession ses)
-	{
-		return "newJob";
-	}
+
 	
 	@GetMapping("/info")
 	public String info(HttpSession ses)

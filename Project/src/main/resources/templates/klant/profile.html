@@ -31,7 +31,8 @@
 			<h1>Openstaande Klusjes:</h1>
 			
 			<div class="profilePostits">
-				<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksOpenstaand}" >
+				
+				<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksOpenstaand}" ><a th:href="@{/taskDetail/{id}(id=${task.id})}">
 				    <div class="postitInner">
 						<div class="postitTop">
 				        	<div class="title" th:text="${task.title}"></div>
@@ -39,6 +40,22 @@
 						</div><br>
 				        <div class="description" th:text="${task.description}"></div>
 				    </div>
+					</a>
+				</div>
+			</div>
+			
+			<h1>Klusjes geboden:</h1>
+
+			<div class="profilePostits">
+				<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksGeboden}" ><a th:href="@{/taskGebode/{id}(id=${task.id})}">
+					
+				    <div class="postitInner">
+						<div class="postitTop">
+				        	<div class="title" th:text="${task.title}"></div>
+							<div class="price" th:text="€+${task.price}"></div>
+						</div><br>
+				        <div class="description" th:text="${task.description}"></div>
+				    </div></a>
 				</div>
 			</div>
 			
@@ -80,6 +97,7 @@
 							<div class="price" th:text="€+${task.price}"></div>
 						</div><br>
 				        <div class="description" th:text="${task.description}"></div>
+						<
 				    </div>
 				</div>
 			</div>

@@ -1,0 +1,12 @@
+package com.AppArch.Project.Service;
+
+import java.util.Optional;
+
+import com.AppArch.Project.Model.Offer;
+import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
+
+public interface OfferRepoService {
+	 public Optional<Offer> getOffer(User email, Task taskId);
+
+}

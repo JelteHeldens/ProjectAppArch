@@ -10,16 +10,17 @@ import jakarta.validation.constraints.NotEmpty;
 @Entity
 @Table(name="customers")
 public class User {
-	
-	@NotBlank
-	@NotEmpty
-	@Column(name="name")
-	private String name;
 	@NotBlank
 	@NotEmpty
     @Id
 	@Column(name="email")
+	
 	private String email;
+	@NotBlank
+	@NotEmpty
+	@Column(name="name")
+	private String name;
+
 	@NotBlank
 	@NotEmpty
 	@Column(name="passwd")
@@ -28,6 +29,8 @@ public class User {
     @NotEmpty
 	@Column(name="functie")
 	private String functie;
+	
+	
 	@Column(name="enabled")
 	private int enabled;
 	
@@ -64,4 +67,5 @@ public class User {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
+	
 }

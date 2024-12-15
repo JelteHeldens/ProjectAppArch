@@ -3,11 +3,15 @@ package com.AppArch.Project.Repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
+
+import jakarta.transaction.Transactional;
 
 
 public interface TaskRepo extends JpaRepository<Task, Integer> {	
@@ -25,4 +29,18 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	
 	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.status >= 4")
     List<Task> findByUserAndDone(User u);
+    
+	@Modifying //is required for UPDATE or DELETE queries
+    @Transactional //ensures the query executes within a transaction.
+	@Query("UPDATE Task t SET t.title = :title, t.description = :description, t.price = :price WHERE t.id = :id")
+    int updateTask(@Param("id") int id, 
+                          @Param("title") String title, 
+                          @Param("description") String description, 
+                          @Param("price") float price);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Task t SET t.status = :state WHERE t.id = :id")
+	int changeState(@Param("id") int id, @Param("state") State state);
+	
 }

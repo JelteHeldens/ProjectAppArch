@@ -1,0 +1,8 @@
+package com.AppArch.Project.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.AppArch.Project.Model.Offer;
+import com.AppArch.Project.Model.OfferKey;
+
+public interface OfferRepo extends JpaRepository<Offer, OfferKey> {
+}

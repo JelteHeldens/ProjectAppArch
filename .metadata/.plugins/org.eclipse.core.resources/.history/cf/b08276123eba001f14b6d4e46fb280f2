@@ -1,0 +1,66 @@
+package com.AppArch.Project.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.AppArch.Project.Model.State;
+import com.AppArch.Project.Model.Task;
+import com.AppArch.Project.Model.User;
+import com.AppArch.Project.Repository.TaskRepo;
+@Service
+public class TaskRepoServiceImpl implements TaskRepoService{
+	@Autowired
+	private TaskRepo taskRepo;
+	
+	public List<Task> getTasks(){
+		return taskRepo.findAll();
+	}
+	public List<Task> getUserTasks(User u){
+		return taskRepo.findByUser(u);
+	}
+
+	public List<Task> getUserTasksState(User u, State s){
+		return taskRepo.findByUserAndState(u,s);
+	}
+
+	public List<Task> getUserTasksStateLessThan(User u, State s){
+		return taskRepo.findByUserAndStateLessThan(u,s);
+	}
+	
+	public List<Task> getUserTasksActive(User u){
+		return taskRepo.findByUserAndActive(u);
+	}
+	
+	public List<Task> getUserTasksDone(User u){
+		return taskRepo.findByUserAndDone(u);
+	}
+	
+	public void addTask(Task t) {
+		System.out.println("save Task: " + t);
+		taskRepo.save(t);
+	}
+
+	public Optional<Task> getTaskById(int id) {
+			return taskRepo.findById(id);
+	}
+    
+	public Task updateTask(int id, Task updatedTask) {
+		//take data
+        Task existingTask = taskRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id)); //if its not exist
+
+        // Update fields
+        existingTask.setTitle(updatedTask.getTitle());
+        existingTask.setDescription(updatedTask.getDescription());
+        existingTask.setPrice(updatedTask.getPrice());
+        existingTask.setOwner(updatedTask.getOwner());
+        existingTask.setStatus(updatedTask.getStatus());
+        existingTask.setRating(updatedTask.getRating());
+
+        return taskRepo.save(existingTask); // Save the updated task
+    }
+	
+}

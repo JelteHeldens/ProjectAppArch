@@ -1,0 +1,22 @@
+package com.AppArch.Project.Service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.AppArch.Project.Model.OfferKey;
+import com.AppArch.Project.Repository.OfferRepo;
+import com.AppArch.Project.Model.Offer;
+
+@Service
+public class OfferRepoServiceImpl implements OfferRepoService{
+    @Autowired
+    private OfferRepo offerRepo;
+    
+    public Optional<Offer> getOffer(String email, int taskId) {
+        OfferKey key = new OfferKey(email, taskId);
+        return offerRepo.findById(key);
+    }
+
+}

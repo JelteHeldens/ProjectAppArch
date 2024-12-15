@@ -34,7 +34,8 @@ public class Task {
 	private User owner;
 	
 	//Variabele om op het einde rating toe te kennen aan klusjesman en daarmee algemene rating te berekenen van elke klusjesman
-	private int rating;
+	@Column(name = "rating")
+	private Integer rating;
 	
 	//private ArrayList<User> offers;
 	@Column(name="status")
@@ -52,7 +53,7 @@ public class Task {
 		this.status = State.BESCHIKBAAR;
 		//this.offers = new ArrayList<User>();
 		//this.assigned = new User();
-		this.rating = 0;
+		this.rating = null;
 	}
 	
 	public String getTitle() {
@@ -94,5 +95,13 @@ public class Task {
 	}
 	public void setStatus(State status) {
 		this.status = status;
+	}
+	
+	public int getRating() {
+		return rating;
+	}
+	
+	public void setRating(int rating) {
+		this.rating = rating;
 	}
 }

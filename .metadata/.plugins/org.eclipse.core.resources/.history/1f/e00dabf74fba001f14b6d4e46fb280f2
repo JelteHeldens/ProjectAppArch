@@ -1,0 +1,4 @@
+package com.AppArch.Project.Repository;
+
+public interface OfferRepo extends JpaRepository<Offer, OfferKey> {
+}

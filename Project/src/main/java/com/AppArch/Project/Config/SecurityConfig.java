@@ -22,7 +22,7 @@ public class SecurityConfig {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+		return new BCryptPasswordEncoder();
 	}
 	@Bean
 	SecurityFilterChain beveilig(HttpSecurity http) throws Exception {
@@ -30,18 +30,20 @@ public class SecurityConfig {
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> authorize
 				 
-				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**").permitAll()
-				.requestMatchers("/","/index","/home","/newJob","/profile","/info", "/edit/profiel", "/klant/profile", "/klusjesman/profile").authenticated()
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**").permitAll()
+				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klant/**", "/klusjesman/profile", "/taskDetail/**", "/taskedite", "/taskDelete", "/takeTask", "/taskGebode/**", "/taskGebode").authenticated()
+				.requestMatchers("/newJob").hasRole("klant")
 				//.anyRequest().permitAll()
 			)
+		
 			.formLogin(form -> form
 					.loginPage("/login").permitAll()
 			)
+			
 			.logout (logout -> logout
 					.logoutSuccessUrl("/")
 			);
 		return http.build();
-				
 	}
 	
 	@Autowired
