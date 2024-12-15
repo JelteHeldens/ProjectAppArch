@@ -44,11 +44,13 @@ public class MainController {
 	@Autowired
 	private ServletContext ctx;
 	
+	
 	//Drie get mapping naar homepage: index.html
 	@GetMapping("/")
 	public String home(HttpServletRequest request)
 	{
-		ctx.setAttribute("tasks",taskRepS.getTasks());
+		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
+		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
 		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
@@ -61,7 +63,8 @@ public class MainController {
 	@GetMapping("/index")
 	public String index(HttpServletRequest request)
 	{
-		ctx.setAttribute("tasks",taskRepS.getTasks());
+		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
+		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
 		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
@@ -74,8 +77,10 @@ public class MainController {
 	@GetMapping("/home")
 	public String homep(HttpServletRequest request)
 	{
-		ctx.setAttribute("tasks",taskRepS.getTasks());
-		System.out.println(request.isUserInRole("ROLE_klusjesman"));
+		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
+		List<Task> test = taskRepS.findClosedTasks();
+		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
+		System.out.println(test.size());
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
 		}
@@ -128,10 +133,6 @@ public class MainController {
 			ctx.setAttribute("userTasksOpenstaand",userTasksOpenstaand);
 			List<Task> userTasksGeboden = taskRepS.getUserTasksState(user.get(), State.GEBODEN);
 			ctx.setAttribute("userTasksGeboden",userTasksGeboden);
-			/*for(int i = 0; i<userTasksGeboden.size(); i++) {
-				List<User> GebodenUsers = offerRepoS.findUserByTask(userTasksGeboden.get(i));
-				
-			}*/
 			
 			
 			return "klant/profile";

@@ -59,5 +59,18 @@ public class TaskRepoServiceImpl implements TaskRepoService{
 		taskRepo.changeState(id,s);
 		
 	}
+	@Override
+	public void addExecutor(int id, User executor) {
+		taskRepo.addExecutor(id, executor);
+		
+	}
+	@Override
+	public List<Task> findOpenTasks() {
+		return taskRepo.findOpenTasks();
+	}
+	@Override
+	public List<Task> findClosedTasks() {
+		return taskRepo.findClosedTasks();
+	}
 	
 }

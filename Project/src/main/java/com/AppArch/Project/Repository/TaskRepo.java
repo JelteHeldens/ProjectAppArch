@@ -29,6 +29,13 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	
 	@Query("SELECT t FROM Task t WHERE t.owner = :u AND t.status >= 4")
     List<Task> findByUserAndDone(User u);
+	
+	@Query("SELECT t FROM Task t WHERE t.status < 2")
+	List<Task> findOpenTasks();
+	
+	@Query("SELECT t FROM Task t WHERE t.status >= 2")
+	List<Task> findClosedTasks();
+	
     
 	@Modifying //is required for UPDATE or DELETE queries
     @Transactional //ensures the query executes within a transaction.
@@ -43,4 +50,8 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	@Query("UPDATE Task t SET t.status = :state WHERE t.id = :id")
 	int changeState(@Param("id") int id, @Param("state") State state);
 	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Task t SET t.status = 2, t.executor = :executor WHERE t.id = :id")
+	int addExecutor(@Param("id") int id, @Param("executor") User executor);
 }

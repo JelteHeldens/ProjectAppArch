@@ -41,6 +41,10 @@ public class Task {
 	@Column(name="status")
 	private State status;
 	
+	@ManyToOne
+	@JoinColumn(name="executor")
+	private User executor;
+	
 	public Task() {} //imported for the get request
 	
 	public Task(String title, String description, float price, User owner) {
@@ -54,6 +58,7 @@ public class Task {
 		//this.offers = new ArrayList<User>();
 		//this.assigned = new User();
 		this.rating = null;
+		this.executor = null;
 	}
 	
 	public String getTitle() {

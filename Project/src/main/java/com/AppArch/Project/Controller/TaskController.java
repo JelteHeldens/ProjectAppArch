@@ -113,8 +113,18 @@ public class TaskController {
     	Optional<Task> t = taskRepS.getTaskById(id);
 		List<User> GebodenUsers = offerRepoS.findUserByTask(t.get());
 		m.addAttribute("gebodenUserList",GebodenUsers);
+		m.addAttribute("huidigID", id);
 		return "/klant/geboden";
 	}
+    
+    @PostMapping("/gebodeTask")
+    public String userSelect(HttpServletRequest req) {
+    	String klusjesmanEmail = req.getParameter("klusjesman");
+    	int id = Integer.parseInt(req.getParameter("id"));
+    	User klusjesman = UserRepS.getUserById(klusjesmanEmail).get();
+    	taskRepS.addExecutor(id, klusjesman);
+    	return "redirect:/profile";
+    }
     
 	@PostMapping("/taskDelete")
 	public String removeTask(HttpServletRequest req) {
