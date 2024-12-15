@@ -31,7 +31,7 @@ public class SecurityConfig {
 		.authorizeHttpRequests(authorize -> authorize
 				 
 				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**").permitAll()
-				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klant/**", "/klusjesman/profile", "/taskDetail/**", "/taskedite", "/taskDelete", "/takeTask", "/taskGebode/**", "/taskGebode").authenticated()
+				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klant/**", "/klusjesman/profile", "/taskDetail/**", "/taskedite", "/taskDelete", "/takeTask", "/taskGebode/**").authenticated()
 				.requestMatchers("/newJob").hasRole("klant")
 				//.anyRequest().permitAll()
 			)

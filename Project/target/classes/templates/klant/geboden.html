@@ -8,7 +8,6 @@
 <body>
 <div th:insert="/fragments/general.html :: header"></div><br>
 
-<form action="/taskedite" method="post">
 	<div class="SinglePostit">
 		<div class="postit">
 			<div class="postitInner"> 
@@ -21,11 +20,6 @@
 		</div>
 	</div><br>
 	<div class="CenterKnop"><button type="submit" class="SubmitKlusje">edit klusje</button></div><br><br>
-</form>
-<form action="/taskDelete" method="post">
-	<input type="hidden" id="id" name="id" th:value="${task.id}">
-	<button type="submit">delete taak</button>
-</form>
 
 <div class="addJobUitleg">
 	<h1>Uitleg bij aanmaken van klusje:</h1>

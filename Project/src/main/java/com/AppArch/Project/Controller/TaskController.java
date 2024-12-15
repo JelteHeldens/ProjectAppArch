@@ -113,7 +113,7 @@ public class TaskController {
     	Optional<Task> t = taskRepS.getTaskById(id);
 		List<User> GebodenUsers = offerRepoS.findUserByTask(t.get());
 		m.addAttribute("gebodenUserList",GebodenUsers);
-		return "klant/geboden";
+		return "/klant/geboden";
 	}
     
 	@PostMapping("/taskDelete")
