@@ -75,10 +75,10 @@ public class TaskController {
         Optional<Task> task = taskRepS.getTaskById(id);
         if(task.get().getStatus() == State.BESCHIKBAAR){
 	        m.addAttribute("task", task.get());
-	        return "/klant/editTask";
+	        return "klant/task";
         }
         else {
-        	return "redirct:/profile";
+        	return "redirect:/profile";
         }
     }
     
@@ -117,6 +117,27 @@ public class TaskController {
 		return "/klant/geboden";
 	}
     
+    @GetMapping("/taskReview/{id}")
+	public String reviewTask(@PathVariable int id, Model m) {
+		//Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
+    	Optional<Task> t = taskRepS.getTaskById(id);
+    	 m.addAttribute("task", t.get());
+		return "/klant/review";
+	}
+    
+    //rating toekennen aan task
+    @PostMapping("/finalizeTask")
+    public String finalizeTask(HttpServletRequest req) {
+    	RestTemplate rest = new RestTemplate();
+        
+    	int id = Integer.parseInt(req.getParameter("id"));
+    	int rating = Integer.parseInt(req.getParameter("rating"));
+    	taskRepS.reviewTask(id, rating);
+		taskRepS.changeState(id, State.BEOORDEELD);
+
+    	 return "redirect:/profile";
+	}
+    
     @PostMapping("/gebodeTask")
     public String userSelect(HttpServletRequest req) {
     	String klusjesmanEmail = req.getParameter("klusjesman");
@@ -150,7 +171,17 @@ public class TaskController {
 		rest.postForEntity("http://localhost:8080/offer/add", offerData, Void.class);
 		return "redirect:/";
 	}
-	
+
+	//Markeren van task als uitgevoerd door klusjesman
+	@PostMapping("/completeTask")
+	public String complete(HttpServletRequest req) {
+		RestTemplate rest = new RestTemplate();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
+		int id = Integer.parseInt(req.getParameter("id"));
+		
+		taskRepS.changeState(id, State.UITGEVOERD);
+		return "redirect:/profile";
+	}
 
 	
 

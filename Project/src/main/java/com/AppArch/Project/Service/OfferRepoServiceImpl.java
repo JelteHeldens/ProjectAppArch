@@ -34,4 +34,8 @@ public class OfferRepoServiceImpl implements OfferRepoService{
 		return offerRepo.findUserByTask(t);
 	}
 
+	 public List<Offer> getAll(){
+		 return offerRepo.findAll();
+	 }
+
 }

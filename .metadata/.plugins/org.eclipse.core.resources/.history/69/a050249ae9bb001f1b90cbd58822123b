@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="/fragments/general.html :: head"></div>
+	<title>Handymen - Profile Klusjesman</title>
+	<script src="/js/script.js"></script>
+</head>
+<body onload="init()">
+    <div th:replace="/fragments/general.html :: header"></div><br>
+	
+	<img class="ProfileImageBG" src="images/profile_kl.jpg">
+	<div class="ProfileBox">
+		<div class="ProfileTop">
+			<div class="ProfileStack">
+				<a th:text="${application.user.getRole()}"class="ProfileRole"></a>
+				<a class="ProfileRating">Rating: 7,6/10</a>
+			</div>
+			<img class="ProfileImage" src="images/pf.png">
+			<div class="LogoutKnop"><a><form th:action="@{/logout}" method = 'POST'><button type="submit" class="SubmitKlusje">Logout</button></form></a></div>
+		</div>
+		<div class="UserInfo">
+			<a th:text="${application.user.name}" class="UserName"></a>
+			<a th:text="${application.user.email}"class="UserMail"></a>
+		</div>
+		<br><br><br><br><br>
+		<form action="/edit/profiel" method="POST">
+			<div class="ProfileLower">
+				<a class="UserMail">Naam wijzigen:</a>
+		        <input type="text" id="NEWNAME" name="NEWNAME" th:value="${application.user.name}">
+				<button type="submit" class="SubmitKlusje">Change</button><
+			</div>
+		</form>
+		<br><br><br>
+	</div>
+	<br><br><br><br><br><br><br><br><br><br><br><br>
+	
+	<div class="KlusjesContainer">
+		<h1>Geboden Klusjes:</h1>
+		
+		<div class="profilePostits">
+			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksGEBODEN}" >
+			    <div class="postitInner">
+					<div class="postitTop">
+			        	<div class="title" th:text="${task.title}"></div>
+						<div class="price" th:text="€+${task.price}"></div>
+					</div><br>
+			        <div class="description" th:text="${task.description}"></div>
+					<div class="postitLower">
+						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+						<div class="bids"></div>
+					</div>
+			    </div>
+			</div>
+		</div>
+		
+		<h1>Toegewezen Klusjes:</h1>
+
+		<div class="profilePostits">
+			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksTOEGEWEZEN}" >
+			    <div class="postitInner">
+					<div class="postitTop">
+			        	<div class="title" th:text="${task.title}"></div>
+						<div class="price" th:text="€+${task.price}"></div>
+					</div><br>
+			        <div class="description" th:text="${task.description}"></div>
+					<div class="postitLower">
+						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+						<div class="bids"></div>
+					</div>
+			    </div>
+			</div>
+		</div>
+				
+		<h1>Afgewerkte Klusjes:</h1>
+		
+		<div class="profilePostits">
+			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksUITGEVOERD}" >
+			    <div class="postitInner">
+					<div class="postitTop">
+			        	<div class="title" th:text="${task.title}"></div>
+						<div class="price" th:text="€+${task.price}"></div>
+					</div><br>
+			        <div class="description" th:text="${task.description}"></div>
+					<div class="postitLower">
+						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+						<div class="bids"></div>
+					</div>
+			    </div>
+			</div>
+		</div>
+
+				
+		<h1>Beoordeelde Klusjes:</h1>
+
+		<div class="profilePostits">
+			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksDone}" >
+			    <div class="postitInner">
+					<div class="postitTop">
+			        	<div class="title" th:text="${task.title}"></div>
+						<div class="price" th:text="€+${task.price}"></div>
+					</div><br>
+			        <div class="description" th:text="${task.description}"></div>
+					<div class="postitLower">
+						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+						<div class="bids" th:text="${task.getRating()}"></div>
+					</div>
+			    </div>
+			</div>
+		</div>
+			
+	</div>
+		   
+    <div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

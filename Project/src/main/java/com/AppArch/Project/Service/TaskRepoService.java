@@ -24,5 +24,6 @@ public interface TaskRepoService {
 	public void remove(int id);
 	public void changeState(int id, State s);
 	public void addExecutor(int id, User executor);
+	public void reviewTask(int id, int rating);
 	
 }

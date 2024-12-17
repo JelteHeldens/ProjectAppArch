@@ -17,23 +17,18 @@
 					<div class="price" th:text="€+${task.price}"></div>
 				</div><br>
 		        <div class="description" th:text="${task.description}"></div>
-		    </div>
-			<form action="/takeTask" method="post">
-				<input type="hidden" id="id" name="id" th:value="${task.id}">
-				<button type="submit">Ik wil dit doen</button>
-			</form>
-		</div>	
-		<div th:class="${'postit c-' + Ctask.status.name()}" th:each="Ctask : ${application.Closedtasks}" >
-		    <div class="postitInner">
-				<div class="postitTop">
-		        	<div class="title" th:text="${Ctask.title}"></div>
-					<div class="price" th:text="€+${Ctask.price}"></div>
-				</div><br>
-		        <div class="description" th:text="${Ctask.description}"></div>
-		    </div>
+				<div class="postitLower">
+					<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+					<div class="bids">
+						<form action="/takeTask" method="post">
+							<input type="hidden" id="id" name="id" th:value="${task.id}">
+							<button type="submit" class="SubmitKlusje">Aanbieden</button>
+						</form>
+					</div>
+				</div>
+		    </div>	
 		</div>
 	</div>
-
 	
 <div th:insert="/fragments/general.html :: footer"></div>
 </body>

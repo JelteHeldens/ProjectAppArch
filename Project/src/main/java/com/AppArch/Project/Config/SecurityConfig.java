@@ -30,8 +30,8 @@ public class SecurityConfig {
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> authorize
 				 
-				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**").permitAll()
-				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klant/**", "/klusjesman/profile", "/taskDetail/**", "/taskedite", "/taskDelete", "/takeTask", "/taskGebode/**", "/gebodeTask").authenticated()
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/favicon.ico","/css/ptrn.png","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**").permitAll()
+				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klant/**", "/klusjesman/profile", "/taskDetail/**", "/taskedite", "/taskDelete", "/takeTask", "/taskGebode/**", "/gebodeTask","/task/**","/completeTask/**","/taskReview/**","/klant/review","/finalizeTask").authenticated()
 				.requestMatchers("/newJob").hasRole("klant")
 				//.anyRequest().permitAll()
 			)

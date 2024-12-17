@@ -32,6 +32,12 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	
 	@Query("SELECT t FROM Task t WHERE t.status < 2")
 	List<Task> findOpenTasks();
+	/*@Query("SELECT t.id, t.title, t.description, t.price, t.owner, t.rating, t.executor, t.status, COUNT(o.taskId.id) AS offers " +
+            "FROM Task t " +
+            "LEFT JOIN Offer o ON t.id = o.taskId.id " +
+            "WHERE t.status < 2 " +
+            "GROUP BY t.id")
+	List<Object[]> findOpenTasks();*/
 	
 	@Query("SELECT t FROM Task t WHERE t.status >= 2")
 	List<Task> findClosedTasks();
@@ -54,4 +60,10 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	@Transactional
 	@Query("UPDATE Task t SET t.status = 2, t.executor = :executor WHERE t.id = :id")
 	int addExecutor(@Param("id") int id, @Param("executor") User executor);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Task t SET t.rating = :rating WHERE t.id = :id")
+	public void reviewTask(@Param("id") int id, @Param("rating") int rating);
+	
 }

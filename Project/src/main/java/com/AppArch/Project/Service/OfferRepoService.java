@@ -14,5 +14,6 @@ public interface OfferRepoService {
 	 public void addOffer(Offer o);
 	 List<Task> findTasksByEmail(User email);
 	 List<User> findUserByTask(Task t);
+	 List<Offer> getAll();
 
 }

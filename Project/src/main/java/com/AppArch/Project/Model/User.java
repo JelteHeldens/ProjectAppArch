@@ -67,5 +67,11 @@ public class User {
 	public void setPasswd(String passwd) {
 		this.passwd = passwd;
 	}
+	public String getPostitName() {
+		if(name.length()>=18) {
+			return name.substring(0,15)+"...";
+		}
+		return name;
+	}
 	
 }

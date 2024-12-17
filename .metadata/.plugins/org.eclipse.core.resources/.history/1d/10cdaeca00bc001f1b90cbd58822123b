@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Handymen - Review Task</title>
+	<div th:insert="/fragments/general.html :: head"></div>
+</head>
+<body>
+<div th:insert="/fragments/general.html :: header"></div><br>
+
+<div class="SinglePostit">
+	<div class="postit">
+		<div class="postitInner"> 
+			<div class="postitTop">
+				<div class="title" th:text="${task.title}"></div><br>
+				<div class="price" th:text="${task.price}"></div><br>
+			</div><br>
+			<div class="description" th:text="${task.description}"></div>
+			<input type="hidden" id="id" name="id" th:value="${task.id}">
+			<div class="postitLower">
+				<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+				<div class="bids"  th:text="${task.executor.getPostitName()}"></div>
+			</div>
+		</div>
+	</div>
+</div><br>
+<form action="/finalizeTask" method="POST">
+	<a class="UserMail">Geef een score van 0-10:</a><br>
+    <input type="number" min="0" max="10" id="rating" name="rating" placeholder="7.5"><br><br>
+	<button type="submit" class="SubmitKlusje">Beoordeel</button>
+</form><br><br>
+
+<div class="addJobUitleg">
+	<h1>Uitleg bij het beoordelen van een klusje:</h1>
+	<a>Om het klusje volledig af te maken moet je de klusjesman beoordelen op diens werk.</a><br>
+	<a>Beoordelen gebeurt door een getal op te geven tussen 0 en 10. Dit getal wordt meegerekend in de rating van de klusjesman.</a>
+</div><br><br>
+
+<div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

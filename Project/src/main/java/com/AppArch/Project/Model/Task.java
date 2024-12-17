@@ -57,7 +57,7 @@ public class Task {
 		this.status = State.BESCHIKBAAR;
 		//this.offers = new ArrayList<User>();
 		//this.assigned = new User();
-		this.rating = null;
+		this.rating = 0;
 		this.executor = null;
 	}
 	
@@ -89,12 +89,6 @@ public class Task {
 	public int getId() {
 		return this.id;
 	}
-	/*public ArrayList<User> getOffers() {
-		return offers;
-	}
-	public void setOffers(ArrayList<User> offers) {
-		this.offers = offers;
-	}*/
 	public State getStatus() {
 		return status;
 	}
@@ -108,5 +102,12 @@ public class Task {
 	
 	public void setRating(int rating) {
 		this.rating = rating;
+	}
+
+	public User getExecutor() {
+		return executor;
+	}
+	public void setExecutor(User e) {
+		this.executor = e;
 	}
 }

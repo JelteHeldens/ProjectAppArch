@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,7 @@ public class MainController {
 	{
 		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
 		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
+		ctx.setAttribute("offers", offerRepoS.getAll());
 		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
@@ -65,6 +67,7 @@ public class MainController {
 	{
 		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
 		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
+		ctx.setAttribute("offers", offerRepoS.getAll());
 		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
@@ -78,9 +81,10 @@ public class MainController {
 	public String homep(HttpServletRequest request)
 	{
 		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
-		List<Task> test = taskRepS.findClosedTasks();
+		//List<Task> test = taskRepS.findClosedTasks();
 		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
-		System.out.println(test.size());
+		ctx.setAttribute("offers", offerRepoS.getAll());
+		//System.out.println(test.size());
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
 		}
@@ -105,30 +109,39 @@ public class MainController {
 	public String profiles(HttpServletRequest request, Model m) {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
 		String email = user.get().getEmail();
-		ctx.setAttribute("user",user.get());
-		
-		//Querries moeten later aangepast worden. Onderscheid moet gemaakt worden tussen klant en klusjesman.
-		//Een klusjesman is niet de 'owner' van een task, bij deze queries wordt zowel klant als klusjesman gezien als owner. Dit is tijdelijk voorbeeld dus.	
-		List<Task> userTasksTOEGEWEZEN = taskRepS.getUserTasksState(user.get(), State.TOEGEWEZEN);
-		ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
-		List<Task> userTasksUITGEVOERD = taskRepS.getUserTasksState(user.get(), State.UITGEVOERD);
-		ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
-		List<Task> userTasksDone = taskRepS.getUserTasksDone(user.get());
-		ctx.setAttribute("userTasksDone",userTasksDone);
+		ctx.setAttribute("user",user.get());	
 		
 		System.out.println(user.get().getRole());
 		//Gebruiker is klusjesman
 		if (request.isUserInRole("ROLE_klusjesman")) {
 			System.out.println(email);
-			//List<Offer> userTasksGEBODEN = taskRepS.getUserTasksState(user.get());
-			List<Task> userTasksGEBODEN = offerRepoS.findTasksByEmail(user.get());
-			//System.out.println(userTasksGEBODEN.isEmpty());
-			ctx.setAttribute("userTasksGEBODEN",userTasksGEBODEN);
+			List<Task> userTasksGEBODEN = new ArrayList<>();
+			List<Task> userTasksTOEGEWEZEN = new ArrayList<>();
+			List<Task> userTasksUITGEVOERD = new ArrayList<>();
+			List<Task> userTasksBEOORDEELD = new ArrayList<>();
+			List<Task> userTasks = offerRepoS.findTasksByEmail(user.get());
+			for (int i = 0; i < userTasks.size(); i++){
+				Task t = userTasks.get(i);
+				if      (t.getStatus() == State.GEBODEN) {userTasksGEBODEN.add(t);}
+				else if (t.getStatus() == State.TOEGEWEZEN) {userTasksTOEGEWEZEN.add(t);}
+				else if (t.getStatus() == State.UITGEVOERD) {userTasksUITGEVOERD.add(t);}
+				else if (t.getStatus() == State.BEOORDEELD) {userTasksBEOORDEELD.add(t);}
+			}
+			ctx.setAttribute("userTasksGEBODEN",   userTasksGEBODEN);
+			ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
+			ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
+			ctx.setAttribute("userTasksBEOORDEELD",userTasksBEOORDEELD);
 			
 			return "klusjesman/profile";
 		}
 		//Gebruiker is klant
 		else {
+			List<Task> userTasksTOEGEWEZEN = taskRepS.getUserTasksState(user.get(), State.TOEGEWEZEN);
+			ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
+			List<Task> userTasksUITGEVOERD = taskRepS.getUserTasksState(user.get(), State.UITGEVOERD);
+			ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
+			List<Task> userTasksDone = taskRepS.getUserTasksDone(user.get());
+			ctx.setAttribute("userTasksDone",userTasksDone);
 			List<Task> userTasksOpenstaand = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR); //List<Task> findByUserAndState(User u, State s);
 			ctx.setAttribute("userTasksOpenstaand",userTasksOpenstaand);
 			List<Task> userTasksGeboden = taskRepS.getUserTasksState(user.get(), State.GEBODEN);
