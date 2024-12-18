@@ -81,10 +81,9 @@ public class MainController {
 	public String homep(HttpServletRequest request)
 	{
 		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
-		//List<Task> test = taskRepS.findClosedTasks();
 		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
 		ctx.setAttribute("offers", offerRepoS.getAll());
-		//System.out.println(test.size());
+		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
 		}
@@ -109,12 +108,17 @@ public class MainController {
 	public String profiles(HttpServletRequest request, Model m) {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
 		String email = user.get().getEmail();
-		ctx.setAttribute("user",user.get());	
+		ctx.setAttribute("user",user.get());
+		
 		
 		System.out.println(user.get().getRole());
 		//Gebruiker is klusjesman
 		if (request.isUserInRole("ROLE_klusjesman")) {
 			System.out.println(email);
+			//gemiddelde punten
+			int rating = taskRepS.getAverageRating(user.get());
+			//m.AddAttribute("rating", rating);
+			ctx.setAttribute("rating", rating);
 			List<Task> userTasksGEBODEN = new ArrayList<>();
 			List<Task> userTasksTOEGEWEZEN = new ArrayList<>();
 			List<Task> userTasksUITGEVOERD = new ArrayList<>();

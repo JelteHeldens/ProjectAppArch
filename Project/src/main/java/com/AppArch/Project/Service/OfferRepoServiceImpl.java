@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.AppArch.Project.Model.OfferKey;
+import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Repository.OfferRepo;
@@ -37,5 +38,13 @@ public class OfferRepoServiceImpl implements OfferRepoService{
 	 public List<Offer> getAll(){
 		 return offerRepo.findAll();
 	 }
+	 
+	public void deleteById(OfferKey k) {
+		offerRepo.deleteById(k);
+	}
+	public int getNumberTaskByTaskId(Task t) {
+		return offerRepo.getNumberTaskByTaskId(t);
+	}
+	
 
 }

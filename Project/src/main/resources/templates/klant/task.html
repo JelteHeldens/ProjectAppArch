@@ -23,12 +23,13 @@
 	</div><br>
 	<div class="CenterKnop">
 		<button type="submit" class="SubmitKlusje">Wijzig klusje</button>
-		<form action="/taskDelete" method="post">
+	</form>
+		<form action="/taskDelete" method="post"><br>
 			<input type="hidden" id="id" name="id" th:value="${task.id}">
 			<button type="submit" class="DeleteKlusje">Verwijder klusje</button>
 		</form>
 	</div><br><br>
-</form>
+
 
 
 <div class="addJobUitleg">

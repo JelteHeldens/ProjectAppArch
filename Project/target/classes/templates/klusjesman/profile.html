@@ -13,7 +13,7 @@
 		<div class="ProfileTop">
 			<div class="ProfileStack">
 				<a th:text="${application.user.getRole()}"class="ProfileRole"></a>
-				<a class="ProfileRating">Rating: 7,6/10</a>
+				<a class="ProfileRating" th:text="'Rating: ' + ${application.rating} + '/10'"></a>
 			</div>
 			<img class="ProfileImage" src="images/pf.png">
 			<div class="LogoutKnop"><a><form th:action="@{/logout}" method = 'POST'><button type="submit" class="SubmitKlusje">Logout</button></form></a></div>
@@ -47,7 +47,12 @@
 			        <div class="description" th:text="${task.description}"></div>
 					<div class="postitLower">
 						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
-						<div class="bids"></div>
+						<div class="bids">
+							<form action="/bodIntrekken" method="post">
+								<input type="hidden" id="id" name="id" th:value="${task.id}">
+								<button type="submit" class="SubmitKlusje">Bod intrekken</button>
+							</form>
+						</div>
 					</div>
 			    </div>
 			</div>

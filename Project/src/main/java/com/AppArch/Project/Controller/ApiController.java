@@ -82,7 +82,7 @@ public class ApiController {
 	}
 	
 	@DeleteMapping("/tasks/delete/{id}")
-	public void delcar(@PathVariable int id) {
+	public void delTask(@PathVariable int id) {
 		System.out.println(id);
 		TaskServ.remove(id);
 	}
@@ -96,6 +96,15 @@ public class ApiController {
 		Offer o = new Offer(u.get(),t.get());
 		offerRepoS.addOffer(o);
 		TaskServ.changeState(id, State.GEBODEN);
+	}
+	
+	@PostMapping("/toewijzing")
+	public void toewijzing(@RequestBody Map<String, Object> data) {
+		String email = (String) data.get("email");
+		int id = (int) data.get("id");
+    	User klusjesman = userServ.getUserById(email).get();
+    	
+    	TaskServ.addExecutor(id, klusjesman);
 	}
 	
 	

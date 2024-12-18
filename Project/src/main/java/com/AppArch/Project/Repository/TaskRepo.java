@@ -66,4 +66,12 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	@Query("UPDATE Task t SET t.rating = :rating WHERE t.id = :id")
 	public void reviewTask(@Param("id") int id, @Param("rating") int rating);
 	
+	@Query("select AVG(t.rating) from Task t where t.executor= :executor and status = 4")
+	int getAverageRating(@Param("executor") User executor);
+	
+	@Modifying
+	@Transactional
+	@Query("UPDATE Task t SET t.status = :status WHERE t.id = :id")
+	public void updateStatus(@Param("id") int id, @Param("status") State status);
+	
 }

@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Model.Offer;
+import com.AppArch.Project.Model.OfferKey;
 import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Service.OfferRepoService;
 import com.AppArch.Project.Service.TaskRepoService;
@@ -111,8 +112,12 @@ public class TaskController {
 	public String gebodeTask(@PathVariable int id, Model m) {
 		//Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
     	Optional<Task> t = taskRepS.getTaskById(id);
+    	Map<User, Integer> userRatings = new HashMap<>();
 		List<User> GebodenUsers = offerRepoS.findUserByTask(t.get());
-		m.addAttribute("gebodenUserList",GebodenUsers);
+		for(int i=0; i<GebodenUsers.size(); i++) {
+			userRatings.put(GebodenUsers.get(i), taskRepS.getAverageRating(GebodenUsers.get(i)));
+		}
+		m.addAttribute("userRatings",userRatings);
 		m.addAttribute("huidigID", id);
 		return "/klant/geboden";
 	}
@@ -140,10 +145,15 @@ public class TaskController {
     
     @PostMapping("/gebodeTask")
     public String userSelect(HttpServletRequest req) {
+    	RestTemplate rest = new RestTemplate();
     	String klusjesmanEmail = req.getParameter("klusjesman");
     	int id = Integer.parseInt(req.getParameter("id"));
-    	User klusjesman = UserRepS.getUserById(klusjesmanEmail).get();
-    	taskRepS.addExecutor(id, klusjesman);
+    	//User klusjesman = UserRepS.getUserById(klusjesmanEmail).get();
+    	//taskRepS.addExecutor(id, klusjesman);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        params.put("email", klusjesmanEmail);
+    	rest.postForEntity("http://localhost:8080/toewijzing", params, Void.class);
     	return "redirect:/profile";
     }
     
@@ -181,6 +191,25 @@ public class TaskController {
 		
 		taskRepS.changeState(id, State.UITGEVOERD);
 		return "redirect:/profile";
+	}
+	
+	@PostMapping("/bodIntrekken")
+	public String bodIntrekken(HttpServletRequest req) {
+		User u = UserRepS.getUserById(UserRepS.getCurrentUser()).get();
+		int id = Integer.parseInt(req.getParameter("id"));
+		Task t = taskRepS.getTaskById(id).get();
+		if(t.getStatus() != State.GEBODEN) {
+			return "redirect:/profile";
+		}
+		else {
+			OfferKey k = new OfferKey(u,t);
+			offerRepoS.deleteById(k);
+			int nubmer = offerRepoS.getNumberTaskByTaskId(t);
+			if (nubmer == 0) {
+				taskRepS.changeState(id, State.BESCHIKBAAR);
+			}
+			return "redirect:/profile";
+		}
 	}
 
 	

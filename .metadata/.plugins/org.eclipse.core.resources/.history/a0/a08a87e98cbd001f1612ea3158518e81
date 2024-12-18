@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Handymen - Task Toewijzen</title>
+	<div th:insert="/fragments/general.html :: head"></div>
+</head>
+<body>
+<div th:insert="/fragments/general.html :: header"></div><br>
+
+<div class="SinglePostit">
+	<div class="postit">
+		<div class="postitInner"> 
+			<div class="postitTop">
+				<div class="title">Aangeboden Klusjesmannen:</div>
+			</div>
+			<div class="x" th:each="person : ${userRatings}" >
+				<form action="/gebodeTask" method="post">
+					<!--<div class="description" th:text="${person.name}"></div>-->
+					<input type="hidden" id="klusjesman" name="klusjesman" th:value="${person.key.email}">
+					<input type="hidden" id="id" name="id" th:value="${huidigID}">
+					<button type="submit" th:text="${person.key.name} + ' '+ ${person.value.name}" class="SubmitKlusje"></button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div><br><br>
+
+<div class="addJobUitleg">
+	<h1>Uitleg bij het toekennen van een klusje:</h1>
+	<a>In de postit is er een knop voor iedere klusjesman die zich heeft aangeboden voor het klusje.</a><br>
+	<a>In de knop is de naam van de klusjesman te vinden en diens gemiddelde rating.</a><br>
+	<a>Een klusje toekennen kan door eenvoudigweg op de knop van de gewenste klusjesman te drukken.</a><br><br>
+	<a>LET OP! Het toekennen van een klusje is permanent. Dit kan later niet gewijzigd worden.</a>
+</div><br><br>
+
+<div th:insert="/fragments/general.html :: footer"></div>
+</body>
+</html>

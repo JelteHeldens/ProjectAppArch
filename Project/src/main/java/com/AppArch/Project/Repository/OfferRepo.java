@@ -18,4 +18,7 @@ public interface OfferRepo extends JpaRepository<Offer, OfferKey> {
     
     @Query("SELECT o.email FROM Offer o WHERE o.taskId = :t")
     List<User> findUserByTask(@Param("t") Task t);
+    
+    @Query("SELECT count(o) FROM Offer o WHERE o.taskId = :t")
+    int getNumberTaskByTaskId(@Param("t") Task t);
 }

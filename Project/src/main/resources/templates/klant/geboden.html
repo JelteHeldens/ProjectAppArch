@@ -14,12 +14,12 @@
 			<div class="postitTop">
 				<div class="title">Aangeboden Klusjesmannen:</div>
 			</div>
-			<div class="x" th:each="person : ${gebodenUserList}" >
+			<div class="x" th:each="person : ${userRatings}" >
 				<form action="/gebodeTask" method="post">
 					<!--<div class="description" th:text="${person.name}"></div>-->
-					<input type="hidden" id="klusjesman" name="klusjesman" th:value="${person.email}">
+					<input type="hidden" id="klusjesman" name="klusjesman" th:value="${person.key.email}">
 					<input type="hidden" id="id" name="id" th:value="${huidigID}">
-					<button type="submit" th:text="${person.name}+' [7.6/10]'" class="SubmitKlusje"></button>
+					<button type="submit" th:text="${person.key.name} + ' ['+ ${person.value}+ '/10]'" class="SubmitKlusje"></button>
 				</form>
 			</div>
 		</div>

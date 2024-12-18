@@ -18,6 +18,7 @@ public interface TaskRepoService {
 	public List<Task> getUserTasksDone(User u);
 	public List<Task> findOpenTasks();
 	public List<Task> findClosedTasks();
+	public int getAverageRating(User executor);
 	public void addTask(Task t);
 	public Optional<Task> getTaskById(int id);
 	public void updateTask(int id, String title, String description, float price);
@@ -25,5 +26,6 @@ public interface TaskRepoService {
 	public void changeState(int id, State s);
 	public void addExecutor(int id, User executor);
 	public void reviewTask(int id, int rating);
+	public void updateStatus(int id, State status);
 	
 }
