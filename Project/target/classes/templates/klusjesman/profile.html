@@ -13,7 +13,7 @@
 		<div class="ProfileTop">
 			<div class="ProfileStack">
 				<a th:text="${application.user.getRole()}"class="ProfileRole"></a>
-				<a class="ProfileRating" th:text="'Rating: ' + ${application.rating} + '/10'"></a>
+				<a class="ProfileRating" th:text="'Rating: ' + ${application.rating} + '/5'"></a>
 			</div>
 			<img class="ProfileImage" src="images/pf.png">
 			<div class="LogoutKnop"><a><form th:action="@{/logout}" method = 'POST'><button type="submit" class="SubmitKlusje">Logout</button></form></a></div>
@@ -38,19 +38,22 @@
 		<h1>Geboden Klusjes:</h1>
 		
 		<div class="profilePostits">
-			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksGEBODEN}" >
+			<div th:class="${'postit c-' + task.key.status.name()}" th:each="task : ${application.userTasksGEBODEN}" >
 			    <div class="postitInner">
 					<div class="postitTop">
-			        	<div class="title" th:text="${task.title}"></div>
-						<div class="price" th:text="€+${task.price}"></div>
+			        	<div class="title" th:text="${task.key.title}"></div>
+						<div class="price" th:text="€+${task.key.price}"></div>
 					</div><br>
-			        <div class="description" th:text="${task.description}"></div>
+			        <div class="description" th:text="${task.key.description}"></div>
 					<div class="postitLower">
-						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
+						<div class="owner" th:text="${task.key.owner.getPostitName()}"></div>
 						<div class="bids">
 							<form action="/bodIntrekken" method="post">
-								<input type="hidden" id="id" name="id" th:value="${task.id}">
-								<button type="submit" class="SubmitKlusje">Bod intrekken</button>
+								<input type="hidden" id="id" name="id" th:value="${task.key.id}">
+								<div class="ezspan">
+									<div class="bids" th:text="${task.value}"></div>
+									<button type="submit" class="SubmitKlusje">Bod intrekken</button>
+								</div>
 							</form>
 						</div>
 					</div>
@@ -112,7 +115,7 @@
 			        <div class="description" th:text="${task.description}"></div>
 					<div class="postitLower">
 						<div class="owner" th:text="${task.owner.getPostitName()}"></div>
-						<div class="bids" th:text="${task.getRating()}+ '/10'"></div>
+						<div class="bids" th:text="${task.getRating()}+ '/5'"></div>
 					</div>
 			    </div>
 			</div>

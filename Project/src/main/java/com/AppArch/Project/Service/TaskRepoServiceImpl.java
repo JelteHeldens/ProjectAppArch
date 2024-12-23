@@ -72,11 +72,11 @@ public class TaskRepoServiceImpl implements TaskRepoService{
 	public List<Task> findClosedTasks() {
 		return taskRepo.findClosedTasks();
 	}
-	public void reviewTask(int id, int rating) {
+	public void reviewTask(int id, float rating) {
 		taskRepo.reviewTask(id, rating);
 	}
 
-	public int getAverageRating(User executor) {
+	public float getAverageRating(User executor) {
 		return taskRepo.getAverageRating(executor);
 	}
 	

@@ -18,14 +18,14 @@ public interface TaskRepoService {
 	public List<Task> getUserTasksDone(User u);
 	public List<Task> findOpenTasks();
 	public List<Task> findClosedTasks();
-	public int getAverageRating(User executor);
+	public float getAverageRating(User executor);
 	public void addTask(Task t);
 	public Optional<Task> getTaskById(int id);
 	public void updateTask(int id, String title, String description, float price);
 	public void remove(int id);
 	public void changeState(int id, State s);
 	public void addExecutor(int id, User executor);
-	public void reviewTask(int id, int rating);
+	public void reviewTask(int id, float rating);
 	public void updateStatus(int id, State status);
 	
 }

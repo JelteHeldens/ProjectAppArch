@@ -6,35 +6,33 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="customers")
 public class User {
 	@NotBlank
-	@NotEmpty
     @Id
 	@Column(name="email")
 	
 	private String email;
 	@NotBlank
-	@NotEmpty
 	@Column(name="name")
 	private String name;
 
 	@NotBlank
-	@NotEmpty
 	@Column(name="passwd")
 	private String passwd;
 	@NotBlank
-    @NotEmpty
 	@Column(name="functie")
 	private String functie;
 	
-	
+	@NotNull
 	@Column(name="enabled")
 	private int enabled;
 	
 	public User() {}
+	
 	public User(String name, String email, String passwd, String functie, int enabled) {
 		this.name = name;
 		this.email = email;
@@ -73,5 +71,4 @@ public class User {
 		}
 		return name;
 	}
-	
 }

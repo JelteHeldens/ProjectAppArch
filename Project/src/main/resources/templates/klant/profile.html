@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <div th:insert="/fragments/general.html :: head"></div>
+    <div th:replace="/fragments/general.html :: head"></div>
 	<title>Handymen - Profile Klant</title>
 	<script src="/js/script.js"></script>
 </head>
@@ -54,16 +54,17 @@
 		<h1>Toe te kennen Klusjes:</h1>
 
 		<div class="profilePostits">
-			<div th:class="${'postit c-' + task.status.name()}" th:each="task : ${application.userTasksGeboden}" ><a th:href="@{/taskGebode/{id}(id=${task.id})}">
+			<div th:class="${'postit c-' + task.key.status.name()}" th:each="task : ${application.userTasksGEBODEN}" ><a th:href="@{/taskGebode/{id}(id=${task.key.id})}">
 				
 			    <div class="postitInner">
 					<div class="postitTop">
-			        	<div class="title" th:text="${task.title}"></div>
-						<div class="price" th:text="€+${task.price}"></div>
+			        	<div class="title" th:text="${task.key.title}"></div>
+						<div class="price" th:text="€+${task.key.price}"></div>
 					</div><br>
-			        <div class="description" th:text="${task.description}"></div>
+			        <div class="description" th:text="${task.key.description}"></div>
 					<div class="postitLower2">
 						<a>* Klik om klusjesman toe te kennen *</a>
+						<div class="bids" th:text="'Biedingen = '+${task.value}"></div>
 					</div>
 			    </div></a>
 			</div>
@@ -115,7 +116,7 @@
 					</div><br>
 			        <div class="description" th:text="${task.description}"></div>
 					<div class="postitLower">
-						<div class="owner" th:text="${task.rating}+ '/10'"></div>
+						<div class="owner" th:text="${task.rating}+ '/5'"></div>
 						<div class="bids" th:text="${task.executor.getPostitName()}"></div>
 					</div>
 			    </div>

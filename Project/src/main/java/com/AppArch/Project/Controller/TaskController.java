@@ -1,5 +1,6 @@
 package com.AppArch.Project.Controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class TaskController {
 	@PostMapping("/taskform")
 	public String addtasks(HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
+		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //Email ophalen van user
 		Optional<User> u = UserRepS.getUserById(email);
 		if (!u.isPresent()) {
 		    throw new RuntimeException("User not found");
@@ -62,7 +63,6 @@ public class TaskController {
                 req.getParameter("description"),
                 Float.parseFloat(req.getParameter("price")),
                 u.get());
-		System.out.println(task.getTitle());
 		
 		rest.postForObject("http://localhost:8080/tasks/add", task, ResponseEntity.class);
 
@@ -92,30 +92,37 @@ public class TaskController {
         String description = req.getParameter("description");
         float price = Float.parseFloat(req.getParameter("price"));
 
-        // Create a map to hold form data
+        //Map object om data van form in op te slaan
         Map<String, Object> taskData = new HashMap<>();
         taskData.put("id", id);
         taskData.put("title", title);
         taskData.put("description", description);
         taskData.put("price", price);
 
-        // Send POST request to the API
+        //Stuur POST request naar API
         rest.postForEntity("http://localhost:8080/tasks/update", taskData, Void.class);
-    	//Task task = taskRepS.getTaskById(Integer.parseInt(req.getParameter("id"))).get();
-    	//taskRepS.updateTask(Integer.parseInt(req.getParameter("id")), req.getParameter("title"), req.getParameter("description"), Float.parseFloat(req.getParameter("price"))); //(id, title, description, price);
-    	
-    	//rest.postForObject("http://localhost:8080/tasks/add", task, ResponseEntity.class);
+        
     	return "redirect:/profile";
     }
     
     @GetMapping("/taskGebode/{id}")
 	public String gebodeTask(@PathVariable int id, Model m) {
-		//Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
     	Optional<Task> t = taskRepS.getTaskById(id);
-    	Map<User, Integer> userRatings = new HashMap<>();
 		List<User> GebodenUsers = offerRepoS.findUserByTask(t.get());
+		//De mapping bestaat uit <User,Object> zodat "NA" als string ook kan gemapt worden als klusjesman nog geen rating heeft.
+    	Map<User, Object> userRatings = new HashMap<>();
 		for(int i=0; i<GebodenUsers.size(); i++) {
-			userRatings.put(GebodenUsers.get(i), taskRepS.getAverageRating(GebodenUsers.get(i)));
+			//Rating ophalen geeft error als klusjesman nog geen klusjes heeft volbracht -> Rating wordt dan = NA/5
+			try {
+				float rating = taskRepS.getAverageRating(GebodenUsers.get(i));
+				ctx.setAttribute("rating", rating);
+				userRatings.put(GebodenUsers.get(i), rating);
+			}
+			catch(Exception e) {
+				String rating = "NA";
+				ctx.setAttribute("rating", rating);
+				userRatings.put(GebodenUsers.get(i), rating);
+			}
 		}
 		m.addAttribute("userRatings",userRatings);
 		m.addAttribute("huidigID", id);
@@ -124,23 +131,20 @@ public class TaskController {
     
     @GetMapping("/taskReview/{id}")
 	public String reviewTask(@PathVariable int id, Model m) {
-		//Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
     	Optional<Task> t = taskRepS.getTaskById(id);
     	 m.addAttribute("task", t.get());
 		return "/klant/review";
 	}
     
-    //rating toekennen aan task
+    //Rating toekennen aan task
     @PostMapping("/finalizeTask")
     public String finalizeTask(HttpServletRequest req) {
-    	RestTemplate rest = new RestTemplate();
-        
     	int id = Integer.parseInt(req.getParameter("id"));
-    	int rating = Integer.parseInt(req.getParameter("rating"));
+    	float rating = Float.parseFloat(req.getParameter("rating"));
     	taskRepS.reviewTask(id, rating);
 		taskRepS.changeState(id, State.BEOORDEELD);
 
-    	 return "redirect:/profile";
+    	return "redirect:/profile";
 	}
     
     @PostMapping("/gebodeTask")
@@ -148,8 +152,6 @@ public class TaskController {
     	RestTemplate rest = new RestTemplate();
     	String klusjesmanEmail = req.getParameter("klusjesman");
     	int id = Integer.parseInt(req.getParameter("id"));
-    	//User klusjesman = UserRepS.getUserById(klusjesmanEmail).get();
-    	//taskRepS.addExecutor(id, klusjesman);
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         params.put("email", klusjesmanEmail);
@@ -167,17 +169,13 @@ public class TaskController {
 	@PostMapping("/takeTask")
 	public String bod(HttpServletRequest req) {
 		RestTemplate rest = new RestTemplate();
-		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
+		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //Email ophalen van user
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		Map<String, Object> offerData = new HashMap<>();
 		offerData.put("id", id);
 		offerData.put("email", email);
 		
-		/*Optional<User> u = UserRepS.getUserById(email);
-		Optional<Task> t = taskRepS.getTaskById(Integer.parseInt(req.getParameter("id")));
-		Offer o = new Offer(u.get(),t.get());
-		offerRepoS.addOffer(o);*/
 		rest.postForEntity("http://localhost:8080/offer/add", offerData, Void.class);
 		return "redirect:/";
 	}
@@ -185,8 +183,6 @@ public class TaskController {
 	//Markeren van task als uitgevoerd door klusjesman
 	@PostMapping("/completeTask")
 	public String complete(HttpServletRequest req) {
-		RestTemplate rest = new RestTemplate();
-		String email = SecurityContextHolder.getContext().getAuthentication().getName(); //take the email of the user
 		int id = Integer.parseInt(req.getParameter("id"));
 		
 		taskRepS.changeState(id, State.UITGEVOERD);

@@ -6,26 +6,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.AppArch.Project.Model.Offer;
 import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Model.UserAuthorization;
-import com.AppArch.Project.Repository.UserRepo;
 import com.AppArch.Project.Service.OfferRepoService;
 import com.AppArch.Project.Service.TaskRepoService;
 import com.AppArch.Project.Service.UserRepoService;
-import com.AppArch.Project.Service.UserRepoServiceImpl;
 
 import ch.qos.logback.core.model.Model;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -46,29 +44,19 @@ public class MainController {
 	private ServletContext ctx;
 	
 	
-	//Drie get mapping naar homepage: index.html
+	//Drie get mappings naar homepage: index.html	
 	@GetMapping("/")
-	public String home(HttpServletRequest request)
-	{
-		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
-		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
-		ctx.setAttribute("offers", offerRepoS.getAll());
-		System.out.println(request.isUserInRole("ROLE_klusjesman"));
-		if(request.isUserInRole("ROLE_klusjesman")){
-			return "klusjesman/index";
-		}
-		else {
-			return "klant/index";
-		}
-	}
-	
-	@GetMapping("/index")
 	public String index(HttpServletRequest request)
 	{
-		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
-		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
+		List<Task> tasks = taskRepS.findOpenTasks();
+        Map<Task, Object> taskData = new HashMap<>();
+        for(int i=0; i<tasks.size(); i++) {
+        	int offers = offerRepoS.getNumberTaskByTaskId(tasks.get(i));
+        	taskData.put(tasks.get(i), offers);
+        }
+		ctx.setAttribute("Indextasks",taskData);
+        
 		ctx.setAttribute("offers", offerRepoS.getAll());
-		System.out.println(request.isUserInRole("ROLE_klusjesman"));
 		if(request.isUserInRole("ROLE_klusjesman")){
 			return "klusjesman/index";
 		}
@@ -76,20 +64,15 @@ public class MainController {
 			return "klant/index";
 		}
 	}
-	
+	@GetMapping("/index")
+	public String home(HttpServletRequest request)
+	{
+		return "redirect:/";
+	}
 	@GetMapping("/home")
 	public String homep(HttpServletRequest request)
 	{
-		ctx.setAttribute("Opentasks",taskRepS.findOpenTasks());
-		ctx.setAttribute("Closedtasks",taskRepS.findClosedTasks());
-		ctx.setAttribute("offers", offerRepoS.getAll());
-		System.out.println(request.isUserInRole("ROLE_klusjesman"));
-		if(request.isUserInRole("ROLE_klusjesman")){
-			return "klusjesman/index";
-		}
-		else {
-			return "klant/index";
-		}
+		return "redirect:/";
 	}
 	
 	@RequestMapping("/login")
@@ -107,18 +90,22 @@ public class MainController {
 	@GetMapping("/profile")
 	public String profiles(HttpServletRequest request, Model m) {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
-		String email = user.get().getEmail();
 		ctx.setAttribute("user",user.get());
 		
 		
 		System.out.println(user.get().getRole());
 		//Gebruiker is klusjesman
 		if (request.isUserInRole("ROLE_klusjesman")) {
-			System.out.println(email);
-			//gemiddelde punten
-			int rating = taskRepS.getAverageRating(user.get());
-			//m.AddAttribute("rating", rating);
-			ctx.setAttribute("rating", rating);
+			//Rating ophalen geeft error als klusjesman nog geen klusjes heeft volbracht -> Rating wordt dan = NA/5
+			try {
+				float rating = taskRepS.getAverageRating(user.get());
+				ctx.setAttribute("rating", rating);
+			}
+			catch(Exception e) {
+				String rating = "NA";
+				ctx.setAttribute("rating", rating);
+			}
+			
 			List<Task> userTasksGEBODEN = new ArrayList<>();
 			List<Task> userTasksTOEGEWEZEN = new ArrayList<>();
 			List<Task> userTasksUITGEVOERD = new ArrayList<>();
@@ -127,14 +114,19 @@ public class MainController {
 			for (int i = 0; i < userTasks.size(); i++){
 				Task t = userTasks.get(i);
 				if      (t.getStatus() == State.GEBODEN) {userTasksGEBODEN.add(t);}
-				else if (t.getStatus() == State.TOEGEWEZEN) {userTasksTOEGEWEZEN.add(t);}
-				else if (t.getStatus() == State.UITGEVOERD) {userTasksUITGEVOERD.add(t);}
-				else if (t.getStatus() == State.BEOORDEELD) {userTasksBEOORDEELD.add(t);}
+				else if (t.getStatus() == State.TOEGEWEZEN && t.getExecutor() == user.get()) {userTasksTOEGEWEZEN.add(t);}
+				else if (t.getStatus() == State.UITGEVOERD && t.getExecutor() == user.get()) {userTasksUITGEVOERD.add(t);}
+				else if (t.getStatus() == State.BEOORDEELD && t.getExecutor() == user.get()) {userTasksBEOORDEELD.add(t);}
 			}
-			ctx.setAttribute("userTasksGEBODEN",   userTasksGEBODEN);
+	        Map<Task, Object> tasksGEBODEN = new HashMap<>();
+	        for(int i=0; i<userTasksGEBODEN.size(); i++) {
+	        	int offers = offerRepoS.getNumberTaskByTaskId(userTasksGEBODEN.get(i));
+	        	tasksGEBODEN.put(userTasksGEBODEN.get(i), offers);
+	        }
+			ctx.setAttribute("userTasksGEBODEN",   tasksGEBODEN);
 			ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
 			ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
-			ctx.setAttribute("userTasksBEOORDEELD",userTasksBEOORDEELD);
+			ctx.setAttribute("userTasksDone",userTasksBEOORDEELD);
 			
 			return "klusjesman/profile";
 		}
@@ -146,11 +138,15 @@ public class MainController {
 			ctx.setAttribute("userTasksUITGEVOERD",userTasksUITGEVOERD);
 			List<Task> userTasksDone = taskRepS.getUserTasksDone(user.get());
 			ctx.setAttribute("userTasksDone",userTasksDone);
-			List<Task> userTasksOpenstaand = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR); //List<Task> findByUserAndState(User u, State s);
+			List<Task> userTasksOpenstaand = taskRepS.getUserTasksState(user.get(), State.BESCHIKBAAR);
 			ctx.setAttribute("userTasksOpenstaand",userTasksOpenstaand);
 			List<Task> userTasksGeboden = taskRepS.getUserTasksState(user.get(), State.GEBODEN);
-			ctx.setAttribute("userTasksGeboden",userTasksGeboden);
-			
+			Map<Task, Object> tasksGEBODEN = new HashMap<>();
+	        for(int i=0; i<userTasksGeboden.size(); i++) {
+	        	int offers = offerRepoS.getNumberTaskByTaskId(userTasksGeboden.get(i));
+	        	tasksGEBODEN.put(userTasksGeboden.get(i), offers);
+	        }
+			ctx.setAttribute("userTasksGEBODEN",   tasksGEBODEN);
 			
 			return "klant/profile";
 		}
@@ -170,7 +166,6 @@ public class MainController {
 	
 	@PostMapping("/edit/profiel")
 	public String editProfile(HttpServletRequest req) {
-		RestTemplate rest = new RestTemplate();
 		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		UserRepS.updateUser(email, req.getParameter("NEWNAME"));
 		return "redirect:/profile";

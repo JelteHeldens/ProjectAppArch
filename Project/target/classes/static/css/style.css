@@ -90,9 +90,6 @@ FONTS & SYMBOLS
 
 body{
 	background-color: #313338;
-	background-image: url('ptrn.png');
-	background-size: 3%;
-	background-repeat: repeat;
 }
 h1{
 	font-family:"Caveat Brush";
@@ -207,6 +204,14 @@ h1{
 	color: white;
 	border-color: #1B4E98;
 	color: #1B4E98;
+}
+
+.ezspan{
+	display: flex;
+	justify-content: space-between;
+}
+.ezspan .bids{
+	margin-right: 5px;
 }
 
 .RegisterRadios{
@@ -398,6 +403,21 @@ input[type=number] {
 	align-items: center;
 	border-left: 2px solid #313338;
 }
+.infoPagina .infoGridNoMarg{
+	grid-column-start: 2;
+	grid-column-end: 2;
+	
+	padding-top: 10px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 100px;
+	display: inline-flexbox;
+	justify-content: center;
+	align-items: center;
+	border-left: 2px solid #313338;
+}
 
 /**************
 	PROFILE
@@ -525,9 +545,14 @@ input[type=number] {
 .profilePostits .postitInner{
 	height: 85%;
 }
-.postitLower2{
+.profilePostits .c-GEBODEN .postitLower2{
 	text-align: center;
 	width: 100%;
+	margin-top: -5px;
+}
+.profilePostits .c-TOEGEWEZEN .SubmitKlusje{
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 /**************

@@ -1,0 +1,25 @@
+Eerst deze query uitvoeren: dan ziet ge uw hele tabel als een create query,
+daarin moet ge zoeken naar de naam van de foreign key op task(id), kopieer die naam
+
+SHOW CREATE TABLE offers;
+
+
+
+Dan voert ge deze code uit waarin ge mijn foreign key nog moet veranderen door de naam da ge zelf net hebt gekopieerd:
+
+ALTER TABLE offers
+DROP FOREIGN KEY FKqderm9e0a6p8onpah7q2i6t0n
+
+
+
+Dan maakt ge een nieuwe foreign key met on cascade delete alsvolgt:
+
+ALTER TABLE offers
+ADD CONSTRAINT offers_task_id_fkey
+FOREIGN KEY (task_id)
+REFERENCES task(id)
+ON DELETE CASCADE;
+
+
+
+Et voila, ge kunt nog is checken of da nu ON DELETE CASCADE is door opnieuw de eerste query te doen: SHOW CREATE TABLE offers;

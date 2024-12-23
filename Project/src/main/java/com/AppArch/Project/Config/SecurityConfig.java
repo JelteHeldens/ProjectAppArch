@@ -30,8 +30,8 @@ public class SecurityConfig {
 		.csrf(csrf -> csrf.disable())
 		.authorizeHttpRequests(authorize -> authorize
 				 
-				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/favicon.ico","/css/ptrn.png","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**", "/toewijzing").permitAll()
-				.requestMatchers("/newJob", "/klant/**", "/taskDetail/**", "/taskedite", "/taskDelete").hasRole("klant")
+				.requestMatchers("/register", "/css/**", "/js/**", "/images/**","/favicon.ico","/css/ptrn.png","/registreer", "/users/**", "/user/**", "/fragments/**", "/taskform", "/tasks/**", "offer/**", "/taskGebode/**", "/toewijzing","/favicon.ico").permitAll()
+				.requestMatchers("/newJob", "/klant/**", "/taskDetail/**", "/taskedite", "/taskDelete", "/taskDelete2").hasRole("klant")
 				.requestMatchers("/bodIntrekken").hasRole("klusjesman")
 				.requestMatchers("/","/index","/home","/profile","/info", "/edit/profiel", "/klusjesman/profile", "/takeTask", "/taskGebode/**", "/gebodeTask","/task/**","/completeTask/**","/taskReview/**","/klant/review","/finalizeTask").authenticated()
 				

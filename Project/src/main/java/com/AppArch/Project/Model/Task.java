@@ -10,34 +10,45 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="task")
 public class Task {
+	@NotNull
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private int id;
 	
+	@NotBlank
 	@Column(name="title")
 	private String title;
 	
+	@NotBlank
 	@Column(name="description")
 	private String description;
 	
+	@NotNull
 	@Column(name="price")
 	private float price;
 	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name="owner")
 	private User owner;
 	
-	//Variabele om op het einde rating toe te kennen aan klusjesman en daarmee algemene rating te berekenen van elke klusjesman
+	@NotNull
+	@Min(value=0, message="Rating moet tussen 0 en 5 liggen")
+	@Max(value=5, message="Rating moet tussen 0 en 5 liggen")
 	@Column(name = "rating")
 	private Integer rating;
 	
-	//private ArrayList<User> offers;
+	@NotNull
 	@Column(name="status")
 	private State status;
 	
@@ -55,8 +66,6 @@ public class Task {
 		//Bij aanmaken van job is de status van de job 'BESCHIKBAAR', zie enumeratie 'State'
 		//		De lijst geïnteresseerden is leeg, en er is nog geen klusjesman toegekend.
 		this.status = State.BESCHIKBAAR;
-		//this.offers = new ArrayList<User>();
-		//this.assigned = new User();
 		this.rating = 0;
 		this.executor = null;
 	}
@@ -84,8 +93,7 @@ public class Task {
 	}
 	public void setOwner(User owner) {
 		this.owner = owner;
-	}
-	
+	}	
 	public int getId() {
 		return this.id;
 	}
@@ -95,15 +103,12 @@ public class Task {
 	public void setStatus(State status) {
 		this.status = status;
 	}
-	
 	public int getRating() {
 		return rating;
 	}
-	
 	public void setRating(int rating) {
 		this.rating = rating;
 	}
-
 	public User getExecutor() {
 		return executor;
 	}

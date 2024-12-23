@@ -8,7 +8,6 @@ public class OfferKey implements Serializable {
     private User email;
     private Task taskId;
 
-    // Default constructor
     public OfferKey() {}
 
     public OfferKey(User email, Task taskId) {
@@ -16,7 +15,6 @@ public class OfferKey implements Serializable {
         this.taskId = taskId;
     }
 
-    // Getters and setters
     public User getEmail() {
         return email;
     }

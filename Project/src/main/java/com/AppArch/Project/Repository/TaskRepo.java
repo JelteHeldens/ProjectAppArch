@@ -32,19 +32,13 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	
 	@Query("SELECT t FROM Task t WHERE t.status < 2")
 	List<Task> findOpenTasks();
-	/*@Query("SELECT t.id, t.title, t.description, t.price, t.owner, t.rating, t.executor, t.status, COUNT(o.taskId.id) AS offers " +
-            "FROM Task t " +
-            "LEFT JOIN Offer o ON t.id = o.taskId.id " +
-            "WHERE t.status < 2 " +
-            "GROUP BY t.id")
-	List<Object[]> findOpenTasks();*/
 	
 	@Query("SELECT t FROM Task t WHERE t.status >= 2")
 	List<Task> findClosedTasks();
 	
     
-	@Modifying //is required for UPDATE or DELETE queries
-    @Transactional //ensures the query executes within a transaction.
+	@Modifying //Nodig voor UPDATE en DELETE queries
+    @Transactional //Zorgt dat query verloopt als transactie (ACID principes)
 	@Query("UPDATE Task t SET t.title = :title, t.description = :description, t.price = :price WHERE t.id = :id")
     int updateTask(@Param("id") int id, 
                           @Param("title") String title, 
@@ -64,10 +58,10 @@ public interface TaskRepo extends JpaRepository<Task, Integer> {
 	@Modifying
 	@Transactional
 	@Query("UPDATE Task t SET t.rating = :rating WHERE t.id = :id")
-	public void reviewTask(@Param("id") int id, @Param("rating") int rating);
+	public void reviewTask(@Param("id") int id, @Param("rating") float rating);
 	
 	@Query("select AVG(t.rating) from Task t where t.executor= :executor and status = 4")
-	int getAverageRating(@Param("executor") User executor);
+	float getAverageRating(@Param("executor") User executor);
 	
 	@Modifying
 	@Transactional

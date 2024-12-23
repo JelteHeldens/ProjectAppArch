@@ -19,7 +19,6 @@ public interface OfferRepoService {
 	 List<Offer> getAll();
 	 public void deleteById(OfferKey k);
 	 public int getNumberTaskByTaskId(Task t);
-	 
-
+	
 
 }
