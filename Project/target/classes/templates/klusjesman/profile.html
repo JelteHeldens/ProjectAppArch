@@ -12,7 +12,7 @@
 	<div class="ProfileBox">
 		<div class="ProfileTop">
 			<div class="ProfileStack">
-				<a th:text="${application.user.getRole()}"class="ProfileRole"></a>
+				<a th:text="${application.role}"class="ProfileRole"></a>
 				<a class="ProfileRating" th:text="'Rating: ' + ${application.rating} + '/5'"></a>
 			</div>
 			<img class="ProfileImage" src="images/pf.png">

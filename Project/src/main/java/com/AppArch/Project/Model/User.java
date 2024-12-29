@@ -11,33 +11,35 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name="customers")
 public class User {
-	@NotBlank
+	@NotBlank(message = "email is required")
     @Id
 	@Column(name="email")
-	
 	private String email;
-	@NotBlank
+	
+	@NotBlank(message = "Name is required")
 	@Column(name="name")
 	private String name;
 
-	@NotBlank
+	@NotBlank(message = "password is required")
 	@Column(name="passwd")
 	private String passwd;
-	@NotBlank
-	@Column(name="functie")
-	private String functie;
 	
-	@NotNull
+	//@NotBlank
+	//@Column(name="functie")
+	//private String functie;
+	
+	//@NotNull
 	@Column(name="enabled")
 	private int enabled;
 	
 	public User() {}
+
 	
-	public User(String name, String email, String passwd, String functie, int enabled) {
+	public User(String name, String email, String passwd, /*String functie,*/ int enabled) {
 		this.name = name;
 		this.email = email;
 		this.passwd = passwd;
-		this.functie = functie;
+		//this.functie = functie;
 		this.enabled = enabled;
 	}
 	
@@ -47,12 +49,12 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRole() {
+	/*public String getRole() {
 		return functie;
 	}
 	public void setRole(String functie) {
 		this.functie = functie;
-	}
+	}*/
 	public String getEmail() {
 		return email;
 	}

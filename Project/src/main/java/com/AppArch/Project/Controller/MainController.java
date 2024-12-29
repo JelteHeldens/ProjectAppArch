@@ -1,5 +1,7 @@
 package com.AppArch.Project.Controller;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +25,10 @@ import com.AppArch.Project.Service.OfferRepoService;
 import com.AppArch.Project.Service.TaskRepoService;
 import com.AppArch.Project.Service.UserRepoService;
 
-import ch.qos.logback.core.model.Model;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class MainController {
@@ -92,10 +94,10 @@ public class MainController {
 		Optional<User> user = UserRepS.getUserById(UserRepS.getCurrentUser());
 		ctx.setAttribute("user",user.get());
 		
-		
-		System.out.println(user.get().getRole());
+		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 		//Gebruiker is klusjesman
 		if (request.isUserInRole("ROLE_klusjesman")) {
+			ctx.setAttribute("role","klusjesman");
 			//Rating ophalen geeft error als klusjesman nog geen klusjes heeft volbracht -> Rating wordt dan = NA/5
 			try {
 				float rating = taskRepS.getAverageRating(user.get());
@@ -132,6 +134,7 @@ public class MainController {
 		}
 		//Gebruiker is klant
 		else {
+			ctx.setAttribute("role","klant");
 			List<Task> userTasksTOEGEWEZEN = taskRepS.getUserTasksState(user.get(), State.TOEGEWEZEN);
 			ctx.setAttribute("userTasksTOEGEWEZEN",userTasksTOEGEWEZEN);
 			List<Task> userTasksUITGEVOERD = taskRepS.getUserTasksState(user.get(), State.UITGEVOERD);
@@ -153,11 +156,19 @@ public class MainController {
 	}
 	
 	@PostMapping("/registreer")
-	public String registreer(HttpServletRequest req) {
+	public String registreer(@Valid User u, BindingResult result, HttpServletRequest req, Model m) { //BindingResult is het resultaat van de valid als dus error is dan kan je dat uit bingingresult halen
+	    if (result.hasErrors()) {
+	    	m.addAttribute("error", "Please fill in all fields correctly.");
+	        return "register";
+	    }
+	    else if(UserRepS.existsByEmail(u.getEmail())) {
+	    	m.addAttribute("error", "account with this email address already exists");
+	    	return "register";
+	    }
 		RestTemplate rest = new RestTemplate();
-		User u = new User(req.getParameter("name"),req.getParameter("email"),req.getParameter("pswd"),req.getParameter("userType"),1);
+		//User u = new User(req.getParameter("name"),req.getParameter("email"),req.getParameter("pswd"),req.getParameter("userType"),1);
 		rest.postForObject("http://localhost:8080/user/add",u , ResponseEntity.class);
-		UserAuthorization ua = new UserAuthorization(req.getParameter("email"),req.getParameter("userType"));
+		UserAuthorization ua = new UserAuthorization(u.getEmail(),req.getParameter("functie"));
 		rest.postForObject("http://localhost:8080//user/add/authorities", ua,ResponseEntity.class) ;
 		return "redirect:/login";
 	}

@@ -13,4 +13,5 @@ public interface UserRepoService {
 	public Optional<User> getUserById(String e);
 	public String getCurrentUser();
 	public void updateUser(String mail, String NEWname);
+	public boolean existsByEmail(String email);
 }

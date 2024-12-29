@@ -48,4 +48,8 @@ public class UserRepoServiceImpl implements UserRepoService{
 		userAthRep.save(ua);
 		
 	}
+	
+	public boolean existsByEmail(String email) {
+		return UserRep.existsByEmail(email);
+	}
 }

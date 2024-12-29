@@ -11,7 +11,7 @@
 	<img class="ProfileImageBG" src="images/profile_kl2.jpg">
 		<div class="ProfileBox">
 			<div class="ProfileTop">
-				<div class="klantTitle"><a th:text="${application.user.getRole()}"class="ProfileRole"></a></div>
+				<div class="klantTitle"><a th:text="${application.role}"class="ProfileRole"></a></div>
 				<img class="ProfileImage" src="images/pf.png">
 				<div class="LogoutKnop"><a><form th:action="@{/logout}" method = 'POST'><button type="submit" class="SubmitKlusje">Logout</button></form></a></div>
 			</div>

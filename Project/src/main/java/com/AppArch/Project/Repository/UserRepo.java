@@ -7,5 +7,5 @@ import com.AppArch.Project.Model.User;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, String>{
-
+	boolean existsByEmail(String email);
 }
