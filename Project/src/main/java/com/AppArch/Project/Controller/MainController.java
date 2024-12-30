@@ -101,7 +101,7 @@ public class MainController {
 			//Rating ophalen geeft error als klusjesman nog geen klusjes heeft volbracht -> Rating wordt dan = NA/5
 			try {
 				float rating = taskRepS.getAverageRating(user.get());
-				ctx.setAttribute("rating", rating);
+				ctx.setAttribute("rating", String.format("%.1f", rating));
 			}
 			catch(Exception e) {
 				String rating = "NA";
@@ -158,11 +158,11 @@ public class MainController {
 	@PostMapping("/registreer")
 	public String registreer(@Valid User u, BindingResult result, HttpServletRequest req, Model m) { //BindingResult is het resultaat van de valid als dus error is dan kan je dat uit bingingresult halen
 	    if (result.hasErrors()) {
-	    	m.addAttribute("error", "Please fill in all fields correctly.");
+	    	m.addAttribute("error", "Fill in all fields correctly.");
 	        return "register";
 	    }
 	    else if(UserRepS.existsByEmail(u.getEmail())) {
-	    	m.addAttribute("error", "account with this email address already exists");
+	    	m.addAttribute("error", "Email already in use.");
 	    	return "register";
 	    }
 		RestTemplate rest = new RestTemplate();

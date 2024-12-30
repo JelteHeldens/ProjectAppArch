@@ -115,7 +115,7 @@ public class TaskController {
 			//Rating ophalen geeft error als klusjesman nog geen klusjes heeft volbracht -> Rating wordt dan = NA/5
 			try {
 				float rating = taskRepS.getAverageRating(GebodenUsers.get(i));
-				ctx.setAttribute("rating", rating);
+				ctx.setAttribute("rating", String.format("%.1f", rating));
 				userRatings.put(GebodenUsers.get(i), rating);
 			}
 			catch(Exception e) {
