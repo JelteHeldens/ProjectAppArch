@@ -1,6 +1,5 @@
 package com.AppArch.Project.Controller;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
-import com.AppArch.Project.Model.Offer;
 import com.AppArch.Project.Model.OfferKey;
 import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Service.OfferRepoService;

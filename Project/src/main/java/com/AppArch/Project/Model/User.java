@@ -5,8 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="customers")
@@ -24,22 +22,16 @@ public class User {
 	@Column(name="passwd")
 	private String passwd;
 	
-	//@NotBlank
-	//@Column(name="functie")
-	//private String functie;
-	
-	//@NotNull
 	@Column(name="enabled")
 	private int enabled;
 	
 	public User() {}
 
 	
-	public User(String name, String email, String passwd, /*String functie,*/ int enabled) {
+	public User(String name, String email, String passwd, int enabled) {
 		this.name = name;
 		this.email = email;
 		this.passwd = passwd;
-		//this.functie = functie;
 		this.enabled = enabled;
 	}
 	
@@ -49,12 +41,7 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	/*public String getRole() {
-		return functie;
-	}
-	public void setRole(String functie) {
-		this.functie = functie;
-	}*/
+
 	public String getEmail() {
 		return email;
 	}

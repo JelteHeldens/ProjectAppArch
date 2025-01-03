@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.AppArch.Project.Model.OfferKey;
-import com.AppArch.Project.Model.State;
 import com.AppArch.Project.Model.Task;
 import com.AppArch.Project.Model.User;
 import com.AppArch.Project.Repository.OfferRepo;

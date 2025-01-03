@@ -7335,3 +7335,30 @@
 2024-12-30 14:00:29,717 [Worker-21: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 0 resource from src\main\resources to target\classes
 2024-12-30 14:00:29,721 [Worker-21: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-12-30 14:00:29,725 [Worker-21: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\jelte\Documents\KUL\AppArch\Project\ProjectAppArch\Project\src\test\resources
+2025-01-03 14:38:11,817 [Worker-4: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2025-01-03 14:38:20,872 [Worker-6: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.AppArch:Project:0.0.1-SNAPSHOT @ C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\pom.xml.
+2025-01-03 14:38:21,873 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 14:38:21,893 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 14:38:21,919 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 14:38:24,656 [Worker-2: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.AppArch:Project:0.0.1-SNAPSHOT @ C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\pom.xml.
+2025-01-03 14:38:26,145 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 14:38:26,183 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 14:38:26,285 [Worker-2: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:15:44,100 [Worker-28: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:15:44,116 [Worker-28: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:15:44,131 [Worker-28: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:17:59,504 [Worker-24: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:17:59,515 [Worker-24: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:17:59,528 [Worker-24: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:19:26,851 [Worker-29: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:19:26,863 [Worker-29: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:19:26,873 [Worker-29: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:19:30,483 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:19:30,492 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:19:30,505 [Worker-31: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:23:13,681 [Worker-35: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:23:13,702 [Worker-35: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:23:13,710 [Worker-35: Launching Project - ProjectApplication] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources
+2025-01-03 15:23:42,663 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-01-03 15:23:42,679 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 21 resources from src\main\resources to target\classes
+2025-01-03 15:23:42,688 [Worker-36: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\rode-\OneDrive\hogeschool\semester 7\ApplicatieArchete\ProjectAppArch\Project\src\test\resources

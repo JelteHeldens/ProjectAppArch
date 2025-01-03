@@ -5,7 +5,8 @@ import java.util.Objects;
 
 public class OfferKey implements Serializable {
 
-    private User email;
+	private static final long serialVersionUID = 1L;
+	private User email;
     private Task taskId;
 
     public OfferKey() {}
@@ -32,7 +33,6 @@ public class OfferKey implements Serializable {
     }
 
     // equals() and hashCode()
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -40,7 +40,6 @@ public class OfferKey implements Serializable {
         return Objects.equals(email, that.email) && Objects.equals(taskId, that.taskId);
     }
 
-    @Override
     public int hashCode() {
         return Objects.hash(email, taskId);
     }
