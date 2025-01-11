@@ -23,7 +23,7 @@ create table task(
 
 CREATE TABLE offers (
     email VARCHAR(50) NOT NULL REFERENCES customers,
-    taskId BIGINT NOT NULL REFERENCES task ON DELETE CASCADE,
+    taskId INT NOT NULL REFERENCES task ON DELETE CASCADE,
     PRIMARY KEY (email, taskId)
 );
 
